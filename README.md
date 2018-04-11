@@ -5,7 +5,7 @@
  - sick_scan package from https://github.com/SICKAG/sick_scan
  - Insure following python libraries are installed
     - Numpy
-    - etc.
+    - Scipy
  
 ## Required Equipment
  - Computer

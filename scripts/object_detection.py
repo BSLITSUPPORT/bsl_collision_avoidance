@@ -26,12 +26,19 @@ class SubscribeAndPublish:
         self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
 
     def callback(self, occupancygrid):
+        t1 = time.time()
         heightGrid = np.array(occupancygrid.data)
         binaryGrid = (heightGrid > 0.2).astype(np.int_)
+        binaryGrid = np.reshape(np.flip(binaryGrid,0), (int(occupancygrid.info.height), int(occupancygrid.info.width))).T
+        rospy.loginfo(binaryGrid)
         
         structure = np.ones((3, 3), dtype=np.int)
-        labeled, ncomponents = label(array, structure)
+        labeled, ncomponents = label(binaryGrid, structure)
+        indices = np.indices(binaryGrid.shape).T[:,:,[1, 0]]
         
+        rospy.loginfo(ncomponents)
+        
+        rospy.loginfo('t2: '+str(time.time()-t1))
         #1. connected components
         #2. for each cc make a marker
         #3. put marker in MarkerArray
@@ -66,17 +73,6 @@ class SubscribeAndPublish:
         marker.mesh_resource = ""
         
         return marker
-        
-#Connected Component Class?
-class conected_component:
-    def __init__(self):
-        self.coordins = []
-        self.height = 0
-        self.xmin = 0
-        self.xmax = 0
-        self.ymin = 0
-        self.ymax = 0
-        
 
 if __name__ == '__main__':
     #Initiate the Node

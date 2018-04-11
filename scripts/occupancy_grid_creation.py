@@ -37,27 +37,6 @@ class SubscribeAndPublish:
         #Initiate Point Cloud Subscriber
         self.sub = rospy.Subscriber('cloud_drop', PointCloud2, self.callback)
         
-    def myReadPoint(self, cloud):
-        fmt="ffff"
-        width, height, point_step, row_step, data, isnan = cloud.width, cloud.height, cloud.point_step, cloud.row_step, cloud.data, math.isnan
-        unpack_from = struct.Struct(fmt).unpack_from
-        a = np.empty((22176,4))
-        index = 0
-        for v in range(0,height,4):
-            offset = row_step * v
-            for u in range(width):
-                p = unpack_from(data, offset)
-                has_nan = False
-                for pv in p:
-                    if isnan(pv):
-                        has_nan = True
-                        break
-                if not has_nan:
-                    a[index] = [p[0], p[1], p[2], 1]
-                offset += point_step
-                index += 1
-        return a
-        
     def callback(self, cloud):
         t1 = time.time()
         
@@ -100,6 +79,27 @@ class SubscribeAndPublish:
         rospy.loginfo('t1: '+str(time.time()-t1))
         
         self.pub.publish(self.myOccupancyGrid)
+
+    def myReadPoint(self, cloud):
+        fmt="ffff"
+        width, height, point_step, row_step, data, isnan = cloud.width, cloud.height, cloud.point_step, cloud.row_step, cloud.data, math.isnan
+        unpack_from = struct.Struct(fmt).unpack_from
+        a = np.empty((22176,4))
+        index = 0
+        for v in range(0,height,4):
+            offset = row_step * v
+            for u in range(width):
+                p = unpack_from(data, offset)
+                has_nan = False
+                for pv in p:
+                    if isnan(pv):
+                        has_nan = True
+                        break
+                if not has_nan:
+                    a[index] = [p[0], p[1], p[2], 1]
+                offset += point_step
+                index += 1
+        return a
 
 if __name__ == '__main__':
     #Initiate the Node

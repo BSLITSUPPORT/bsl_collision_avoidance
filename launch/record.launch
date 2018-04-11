@@ -1,0 +1,41 @@
+<launch>
+<arg name="config_file_location_1" default="$(find zed_cpu_ros)/config/SN17151.conf"/>
+<arg name="config_file_location_2" default="$(find zed_cpu_ros)/config/SN17152.conf"/>
+<arg name="camera_namespace" default="camera"/>
+
+<group ns="zed1">
+    <node pkg="zed_cpu_ros" type="zed_cpu_ros" name="zed_cpu_ros_node_1" output="screen" ns="$(arg camera_namespace)" required="true">
+        <param name="resolution" value="3"/>
+        <param name="frame_rate" value="30"/>
+        <param name="config_file_location" value="$(arg config_file_location_2)"/>
+        <param name="show_image" value="false"/>
+        <param name="left_frame_id" value="left_frame1"/>
+        <param name="right_frame_id" value="right_frame1"/>
+        <param name="load_zed_config" value="true"/>
+        <param name="device_id" value="0"/>
+    </node>
+</group>
+
+<node name="sick_mrs_6xxx" pkg="sick_scan" type="sick_generic_caller" respawn="false" output="screen">
+<!-- default values: -->
+<!--
+  <param name="min_ang" type="double" value="-2.35619449019" />
+  <param name="max_ang" type="double" value="2.35619449019" />
+  <param name="intensity" type="bool" value="True" />
+  <param name="skip" type="int" value="0" />
+  <param name="frame_id" type="str" value="laser" />
+  <param name="time_offset" type="double" value="-0.001" />
+  <param name="publish_datagram" type="bool" value="False" />
+  <param name="subscribe_datagram" type="bool" value="false" />
+  <param name="device_number" type="int" value="0" />
+  <param name="range_min" type="double" value="0.05" />
+-->
+<param name="range_max" type="double" value="25.0" />
+<param name="hostname" type="string" value="192.168.1.7" />
+<param name="port" type="string" value="2112" />
+<param name="timelimit" type="int" value="5" />
+<param name="min_ang" type="double" value="-1.047197333" />
+<param name="max_ang" type="double" value="+1.047197333" />
+</node>
+
+</launch>

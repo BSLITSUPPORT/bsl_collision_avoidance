@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot name="CTA">
+    
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 1.128" rpy="0 0 0"/>
+			<geometry>
+				<box size="1.430 2.615 2.256"/>
+			</geometry>
+			<material name="blue">
+	       		<color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+    </link>
+    
+    <link name="crucible_left">
+        <visual>
+            <origin xyz="0 0 -2.5" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="1.081" length="1.7"/>
+			</geometry>
+			<material name="greed">
+	       		<color rgba="0 1 0 0.5"/>
+            </material>
+        </visual>
+    </link>
+    
+    <joint name="right_hand_joint" type="fixed">
+    	<parent link="base_link"/>
+    	<child link="crucible_left"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+</robot>

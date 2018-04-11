@@ -7,6 +7,7 @@ import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
+from scipy.ndimage.measurements import label
 
 class SubscribeAndPublish:
     def __init__(self):
@@ -27,7 +28,9 @@ class SubscribeAndPublish:
     def callback(self, occupancygrid):
         heightGrid = np.array(occupancygrid.data)
         binaryGrid = (heightGrid > 0.2).astype(np.int_)
-        occupancygrid.data = binaryGrid*100
+        
+        structure = np.ones((3, 3), dtype=np.int)
+        labeled, ncomponents = label(array, structure)
         
         #1. connected components
         #2. for each cc make a marker

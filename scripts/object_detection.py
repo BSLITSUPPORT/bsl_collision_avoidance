@@ -1,7 +1,6 @@
 #!/usr/bin/env /usr/bin/python
 
 import rospy
-import tf2_ros
 import time
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
@@ -11,32 +10,27 @@ from scipy.ndimage.measurements import label
 
 class SubscribeAndPublish:
     def __init__(self):
-        #Initiate Transform Buffer
-        self.tfBuffer = tf2_ros.Buffer()
-        self.listener = tf2_ros.TransformListener(self.tfBuffer)
-        
         #Initate OccupancyGrid Publisher
         self.pub = rospy.Publisher('MarkerArray', MarkerArray, queue_size=1)
-        
         #Initiate Point Cloud Subscriber
         self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
-
+        
     def callback(self, occupancygrid):
         t1 = time.time()
         
         #Initatie the MarkerArray
         self.myMarkerArray = MarkerArray()
         self.myMarkerArray.markers = []
-        
+        #Recieve and reshape occupancy grid containing heights of all objects
         self.heightGrid = np.reshape(np.array(occupancygrid.data), (int(occupancygrid.info.height), int(occupancygrid.info.width))).T
+        #Binarize the occupancy grid so all grid point above a certain height = 1 and other = 0
         self.binaryGrid = (self.heightGrid > 0.2).astype(np.int_)
-        
-        rospy.loginfo(self.binaryGrid.shape)
-        
+        #Use scipy.ndimage.measurements.label to complete a connected component algorithim
         structure = np.ones((3, 3), dtype=np.int)
         labeled, ncomponents = label(self.binaryGrid, structure)
         indices = np.indices(self.binaryGrid.shape).T[:,:,[0, 1]]
         
+        #Loop through each connected component and make a 3D marker
         for i in range(ncomponents):
             i += 1
             position, size = self.ccProperties(indices[(labeled == i).T])
@@ -46,12 +40,11 @@ class SubscribeAndPublish:
             self.myMarkerArray.markers.append(self.cube(i-1, position, size))
         
         rospy.loginfo('t2: '+str(time.time()-t1))
-        #1. connected components
-        #2. for each cc make a marker
-        #3. put marker in MarkerArray
         
+        #Publish MarkerArray
         self.pub.publish(self.myMarkerArray)
-
+    
+    #Function that creates and returns a Cube marker wtih the given position and size
     def cube(self, idnum, position, size):
         marker = Marker()
         marker.header.frame_id = "map"

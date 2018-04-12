@@ -18,9 +18,9 @@ class SubscribeAndPublish:
         self.myOccupancyGrid.header.frame_id = "map"
         self.myOccupancyGrid.info.resolution = 0.2
         self.myOccupancyGrid.info.width = 30/self.myOccupancyGrid.info.resolution 
-        self.myOccupancyGrid.info.height = 20/self.myOccupancyGrid.info.resolution 
+        self.myOccupancyGrid.info.height = 6/self.myOccupancyGrid.info.resolution 
         self.myOccupancyGrid.info.origin.position.x = -2
-        self.myOccupancyGrid.info.origin.position.y = -10
+        self.myOccupancyGrid.info.origin.position.y = -3
         self.myOccupancyGrid.info.origin.position.z = 0
         self.myOccupancyGrid.info.origin.orientation.x = 0
         self.myOccupancyGrid.info.origin.orientation.y = 0
@@ -64,11 +64,11 @@ class SubscribeAndPublish:
         
         #TIME = < 0.09
         points = self.myReadPoint(cloud)
-        transformedPoints = np.asarray([np.matmul(self.tran,point) for point in points])
-        transformedPoints = transformedPoints + (self.myOccupancyGrid.info.origin.position.x, -self.myOccupancyGrid.info.origin.position.y, 0, 0)
-        transformedPoints = transformedPoints/self.myOccupancyGrid.info.resolution
-        transformedPoints = np.floor(transformedPoints)
-        for point in transformedPoints:
+        transformedMapPoints = np.asarray([np.matmul(self.tran,point) for point in points])
+        transformedGridPoints = transformedMapPoints + (self.myOccupancyGrid.info.origin.position.x, -self.myOccupancyGrid.info.origin.position.y, 0, 0)
+        transformedGridPoints = transformedGridPoints/self.myOccupancyGrid.info.resolution
+        transformedGridPoints = np.floor(transformedGridPoints)
+        for point in transformedGridPoints:
             if point[0] >= 0 and point[0] < self.myOccupancyGrid.info.width and point[1] >= 0 and point[1] < self.myOccupancyGrid.info.height:
                 index = int(self.myOccupancyGrid.info.width*point[1] + point[0])
                 if point[2] > gridData[index]:
@@ -86,20 +86,15 @@ class SubscribeAndPublish:
         unpack_from = struct.Struct(fmt).unpack_from
         a = np.empty((22176,4))
         index = 0
-        for v in range(0,height,4):
-            offset = row_step * v
-            for u in range(width):
-                p = unpack_from(data, offset)
-                has_nan = False
-                for pv in p:
-                    if isnan(pv):
-                        has_nan = True
-                        break
-                if not has_nan:
+        for v in range(24):
+                offset = row_step * v
+                for u in range(width):
+                    p = unpack_from(data, offset)
                     a[index] = [p[0], p[1], p[2], 1]
-                offset += point_step
-                index += 1
+                    offset += point_step
+                    index += 1
         return a
+        
 
 if __name__ == '__main__':
     #Initiate the Node

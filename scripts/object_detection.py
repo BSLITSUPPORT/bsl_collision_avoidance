@@ -37,38 +37,29 @@ class SubscribeAndPublish:
             cclist.append(ConnectedComponent(i, self.heightGrid, indices[(labeled == i).T], occupancygrid.info.resolution, occupancygrid.info.origin.position.x, occupancygrid.info.origin.position.y))
             
         #Loop through list and join CCs that are inside each other.
-        #~ newcclist = []
-        #~ for i, cc in enumerate(cclist):
-            #~ if conComponent != 0:
-                #~ cclist[i] = 0
-                #~ #Loop through other cc in cclist
-                #~ for j, cc2 in enumerate(cclist[i:]):
-                    #~ if conComponent != 0:
-                        #~ if cc.inside(cc2):
-                            #~ cc.join(cc2)
-                            #~ cclist[i+j] = 0
-                #~ #Loop through new cc in new cc list
-                #~ broken = False
-                #~ for j, cc2 in enumerate(newcclist):
-                    #~ if cc2.inside(cc):
-                        #~ cc2.join(cc)
-                        #~ broken = True
-                        #~ break
-                #~ if broken = False:
-                    #~ newcclist.append(cc)
+        newcclist = []
+        for i, cc in enumerate(cclist):
+            if cc != 0:
+                cclist[i] = 0
+                #Loop through other cc in cclist
+                for j, cc2 in enumerate(cclist[i:]):
+                    if cc2 != 0:
+                        if cc.inside(cc2):
+                            cc.join(cc2)
+                            cclist[i+j] = 0
+                #Loop through new cc in new cc list
+                broken = False
+                for j, cc2 in enumerate(newcclist):
+                    if cc2.inside(cc):
+                        cc2.join(cc)
+                        broken = True
+                        break
+                if broken == False:
+                    newcclist.append(cc)
         
-        for cc in cclist:
+        for cc in newcclist:
             self.myMarkerArray.markers.append(cc.getMarker())
-   
-        #~ #Loop through each connected component and make a 3D marker
-        #~ for i in range(ncomponents):
-            #~ i += 1
-            #~ position, size, bounds = self.ccProperties(indices[(labeled == i).T])
-            #~ position = position*occupancygrid.info.resolution #Convert grid index to m
-            #~ size = size*occupancygrid.info.resolution #Convert grid index to m
-            #~ position = position + (occupancygrid.info.origin.position.x, occupancygrid.info.origin.position.y, 0) #Correct Map to Grid displacment
-            #~ self.myMarkerArray.markers.append(self.cube(i-1, position, size))
-        
+
         rospy.loginfo('t2: '+str(time.time()-t1))
         
         #Publish MarkerArray
@@ -184,53 +175,3 @@ if __name__ == '__main__':
     
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
-
-#~ #Function that creates and returns a Cube marker wtih the given position and size
-#~ def cube(self, idnum, position, size):
-    #~ marker = Marker()
-    #~ marker.header.frame_id = "map"
-    #~ marker.header.stamp = rospy.Time()
-    #~ marker.ns = "shape_namespace"
-    #~ marker.id = idnum
-    #~ marker.type = 1
-    #~ marker.action = 0
-    #~ marker.pose.position.x = position[0]
-    #~ marker.pose.position.y = position[1]
-    #~ marker.pose.position.z = position[2]
-    #~ marker.pose.orientation.x = 0
-    #~ marker.pose.orientation.y = 0
-    #~ marker.pose.orientation.z = 0
-    #~ marker.pose.orientation.w = 1
-    #~ marker.scale.x = size[0]
-    #~ marker.scale.y = size[1]
-    #~ marker.scale.z = size[2]
-    #~ marker.color.a = 0.9
-    #~ marker.color.r = 1
-    #~ marker.color.g = 0
-    #~ marker.color.b = 0
-    #~ marker.lifetime = rospy.Duration(0.4) 
-    #~ marker.mesh_resource = ""
-    
-    #~ return marker
-    
-#~ def ccProperties(self, indices):
-    #~ #x axis
-    #~ top = indices[0,0]
-    #~ bottom = indices[0,0]
-    #~ #y axis
-    #~ left = indices[0,1]
-    #~ right = indices[0,1]
-    #~ #z axis
-    #~ height = 0
-    
-    #~ for index in indices:
-        #~ if index[0] > top: top = index[0]
-        #~ elif index[0] < bottom: bottom = index[0]
-        #~ if index[1] < right: right = index[1]
-        #~ elif index[1] > left: left = index[1]
-        #~ if self.heightGrid[index[0]][index[1]] > height: height = self.heightGrid[index[0]][index[1]]
-    
-    #~ bounds = np.array([top, bottom, left, right, height])
-    #~ position = np.array([(top+1+bottom)/2, (left+1+right)/2, height/2])
-    #~ size = np.array([top+1-bottom, left+1-right, height+1])
-    #~ return position, size, bounds

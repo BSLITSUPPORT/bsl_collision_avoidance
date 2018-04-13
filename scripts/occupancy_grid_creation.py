@@ -16,7 +16,7 @@ class SubscribeAndPublish:
         #Initatie the occupancyGrid
         self.myOccupancyGrid = OccupancyGrid()
         self.myOccupancyGrid.header.frame_id = "map"
-        self.myOccupancyGrid.info.resolution = 0.2
+        self.myOccupancyGrid.info.resolution = 0.1
         self.myOccupancyGrid.info.width = 20/self.myOccupancyGrid.info.resolution 
         self.myOccupancyGrid.info.height = 20/self.myOccupancyGrid.info.resolution 
         self.myOccupancyGrid.info.origin.position.x = -2

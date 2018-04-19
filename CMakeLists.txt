@@ -166,6 +166,7 @@ include_directories(
  install(PROGRAMS
    scripts/occupancy_grid_creation.py
    scripts/object_detection.py
+   scripts/tf2_laser_angle_broadcaster.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

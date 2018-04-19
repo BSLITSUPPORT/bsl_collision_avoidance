@@ -1,5 +1,4 @@
 #!/usr/bin/env /usr/bin/python
-import ctypes
 import math
 import struct
 import rospy

@@ -19,11 +19,9 @@ Z:  Up
     
     <!--///Laser 1 Transform///-0.2094395102 0.0174532952 or -0.1448623279 0-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_6" args="-0.4767 -1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center laser_mount"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_7" args="0 0 0.1 0 -0.2094395102 0.0174532952 laser_mount laser"/>
     
     <!--///Laser 2 Transform///-0.2094395102 0.0174532952 or -0.1448623279 0-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 1.3075 0 -0.7071065431724 0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center laser_mount2"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_9" args="0 0 0.1 0 -0.2094395102 0.0174532952 laser_mount2 laser2"/>
     
     <!--///ZED1 Transform///-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_10" args="0.25 0 0.4 0 0 0 1 cabin_center left_frame1"/>
@@ -36,13 +34,11 @@ Z:  Up
     <!--///Droper///-->
     <node pkg="topic_tools" type="drop" name="drop" args="cloud 3 4"/>
     
-    <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation"/>
-    
-    <!--///Object Detection///-->
-    <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>
     
     <!--///Bag Playback/// forklifttest1_notf or taptest-->
     <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>
     
+    <node pkg="rviz" type="rviz" name="rviz"/>
+    
+    <node pkg="bsl_pkg" type="tf2_laser_angle_broadcaster.py" name="tf2_laser_angle_broadcaster" output="screen" launch-prefix="xterm -e"/>
 </launch>

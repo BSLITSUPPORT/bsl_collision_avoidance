@@ -1,7 +1,19 @@
 <?xml version="1.0"?>
 <robot name="CTA">
     
-    <link name="base_link">
+    <link name="turret_axis">
+        <visual>
+            <origin xyz="0 0 2" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="1.68" length="1"/>
+			</geometry>
+			<material name="red">
+	       		<color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+    
+    <link name="cabin_center">
         <visual>
             <origin xyz="0 0 1.128" rpy="0 0 0"/>
 			<geometry>
@@ -25,9 +37,15 @@
         </visual>
     </link>
     
-    <joint name="right_hand_joint" type="fixed">
-    	<parent link="base_link"/>
+    <joint name="cruce_left_joint" type="fixed">
+    	<parent link="turret_axis"/>
     	<child link="crucible_left"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+    
+    <joint name="cebin_center_joint" type="fixed">
+    	<parent link="turret_axis"/>
+    	<child link="cabin_center"/>
     	<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
 </robot>

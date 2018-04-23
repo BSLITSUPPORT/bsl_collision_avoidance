@@ -35,11 +35,12 @@ def degTOrad(deg):
     
 if __name__ == '__main__':
     rospy.init_node('tf2_laser_angle_broadcaster')
+    #read file
     laser_staticbroadcaster(1,0,0,0)
     sleep(1)
     laser_staticbroadcaster(2,0,0,0)
     
-    print "You have enter the LiDAR Calibration tool"
+    print "You have entered the LiDAR Calibration tool"
     print "Adjusting LIDAR 1"
     laser = 1
     while 1:
@@ -55,5 +56,14 @@ if __name__ == '__main__':
                 break
         sleep(1)
     print "You have stopped making changes"
+    while 1:
+        answer = raw_input("Would you like to commit these changes? 'y'/'n' ").lower()
+        if len(answer) == 1:
+            if answer == 'y':
+                #write
+                break
+            elif answer == 'n':
+                break
+        print "Make sure you just enter a single letter"
     print "You have quit the LiDAR Claibration Tools"
     rospy.spin()

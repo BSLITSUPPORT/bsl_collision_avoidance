@@ -31,6 +31,18 @@
 			<geometry>
 				<cylinder radius="1.081" length="1.7"/>
 			</geometry>
+			<material name="green">
+	       		<color rgba="0 1 0 0.5"/>
+            </material>
+        </visual>
+    </link>
+    
+    <link name="crucible_right">
+        <visual>
+            <origin xyz="0 0 -2.5" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="1.081" length="1.7"/>
+			</geometry>
 			<material name="greed">
 	       		<color rgba="0 1 0 0.5"/>
             </material>
@@ -43,7 +55,13 @@
     	<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
     
-    <joint name="cebin_center_joint" type="fixed">
+    <joint name="cruce_right_joint" type="fixed">
+    	<parent link="turret_axis"/>
+    	<child link="crucible_left"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+    
+    <joint name="cabin_center_joint" type="fixed">
     	<parent link="turret_axis"/>
     	<child link="cabin_center"/>
     	<origin xyz="0 0 0" rpy="0 0 0"/>

@@ -57,7 +57,7 @@
     
     <joint name="cruce_right_joint" type="fixed">
     	<parent link="turret_axis"/>
-    	<child link="crucible_left"/>
+    	<child link="crucible_right"/>
     	<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
     

@@ -17,9 +17,9 @@ class SubscribeAndPublish:
         self.myOccupancyGrid.header.frame_id = "map"
         self.myOccupancyGrid.info.resolution = 0.1
         self.myOccupancyGrid.info.width = 20/self.myOccupancyGrid.info.resolution 
-        self.myOccupancyGrid.info.height = 20/self.myOccupancyGrid.info.resolution 
+        self.myOccupancyGrid.info.height = 3/self.myOccupancyGrid.info.resolution 
         self.myOccupancyGrid.info.origin.position.x = -2
-        self.myOccupancyGrid.info.origin.position.y = -10
+        self.myOccupancyGrid.info.origin.position.y = -1.5
         self.myOccupancyGrid.info.origin.position.z = 0
         self.myOccupancyGrid.info.origin.orientation.x = 0
         self.myOccupancyGrid.info.origin.orientation.y = 0

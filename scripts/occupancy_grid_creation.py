@@ -16,10 +16,10 @@ class SubscribeAndPublish:
         self.myOccupancyGrid = OccupancyGrid()
         self.myOccupancyGrid.header.frame_id = "map"
         self.myOccupancyGrid.info.resolution = 0.1
-        self.myOccupancyGrid.info.width = 20/self.myOccupancyGrid.info.resolution 
-        self.myOccupancyGrid.info.height = 3/self.myOccupancyGrid.info.resolution 
-        self.myOccupancyGrid.info.origin.position.x = -2
-        self.myOccupancyGrid.info.origin.position.y = -1.5
+        self.myOccupancyGrid.info.width = 20/self.myOccupancyGrid.info.resolution #x
+        self.myOccupancyGrid.info.height = 5/self.myOccupancyGrid.info.resolution #y
+        self.myOccupancyGrid.info.origin.position.x = -5
+        self.myOccupancyGrid.info.origin.position.y = -2.5
         self.myOccupancyGrid.info.origin.position.z = 0
         self.myOccupancyGrid.info.origin.orientation.x = 0
         self.myOccupancyGrid.info.origin.orientation.y = 0
@@ -41,10 +41,12 @@ class SubscribeAndPublish:
         
         #Recieve transform from buffer between laser and map
         try:
-            t = self.tfBuffer.lookup_transform('laser', 'map', rospy.Time(0))
+            t = self.tfBuffer.lookup_transform('map', 'laser', rospy.Time(0))
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             return
-            
+        
+        rospy.loginfo(t)
+        
         #Convert ROS transform to 
         self.myOccupancyGrid.header.stamp = cloud.header.stamp
         self.myOccupancyGrid.info.map_load_time = cloud.header.stamp
@@ -55,17 +57,22 @@ class SubscribeAndPublish:
         #Get transformation matrix from ROS transform
         self.tran = np.identity(4)
         rot = PyKDL.Rotation.Quaternion(t.transform.rotation.x, t.transform.rotation.y, t.transform.rotation.z, t.transform.rotation.w)
+        
+        rospy.loginfo(rot)
+        
         for i in range(3):
             for j in range(3):
                 self.tran[i, j] = rot[i, j]
         self.tran[0, 3] = t.transform.translation.x
         self.tran[1, 3] = t.transform.translation.y
         self.tran[2, 3] = t.transform.translation.z
+
+        rospy.loginfo(self.tran)
         
         #Use transformation matrix to transform all points 
         points = self.myReadPoint(cloud)
         transformedMapPoints = np.asarray([np.matmul(self.tran,point) for point in points])
-        transformedGridPoints = transformedMapPoints + (self.myOccupancyGrid.info.origin.position.x, -self.myOccupancyGrid.info.origin.position.y, 0, 0)
+        transformedGridPoints = transformedMapPoints - (self.myOccupancyGrid.info.origin.position.x, self.myOccupancyGrid.info.origin.position.y, 0, 0)
         transformedGridPoints = transformedGridPoints/self.myOccupancyGrid.info.resolution
         transformedGridPoints = np.floor(transformedGridPoints)
         for point in transformedGridPoints:

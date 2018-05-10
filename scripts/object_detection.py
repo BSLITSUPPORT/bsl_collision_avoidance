@@ -16,7 +16,7 @@ class SubscribeAndPublish:
         self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
         
     def callback(self, occupancygrid):
-        t1 = time.time()
+        t2 = time.time()
         
         #Initatie the MarkerArray
         self.myMarkerArray = MarkerArray()
@@ -60,7 +60,7 @@ class SubscribeAndPublish:
         for cc in newcclist:
             self.myMarkerArray.markers.append(cc.getMarker())
 
-        rospy.loginfo('t2: '+str(time.time()-t1))
+        rospy.loginfo('t2: '+str(time.time()-t2))
         
         #Publish MarkerArray
         self.pub.publish(self.myMarkerArray)

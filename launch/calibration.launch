@@ -8,32 +8,11 @@ Z:  Up
 <launch>
     <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
     
-    <!--///Base_link Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_2" args="0.515 2.225 0 0 0 -0.707107019200454 0.707106543172561 turret_axis cabin_lift"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_3" args="-0.198 -0.6995 0 0 0 0 1 cabin_lift cabin_center"/>
-    
-    <!--///Crucible Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_4" args="3.770 0 0 0 0 -0.707107019200454 0.707106543172561 turret_axis crucible_left"/> <!--
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_5" args="2.423 3.5665 0 0 0 0 1 base_link crucible_right"/> -->
-    
-    <!--///Laser 1 Transform///-0.2094395102 0.0174532952 or -0.1448623279 0-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_6" args="-0.4767 -1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center laser_mount"/>
-    
-    <!--///Laser 2 Transform///-0.2094395102 0.0174532952 or -0.1448623279 0-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 1.3075 0 -0.7071065431724 0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center laser_mount2"/>
-    
-    <!--///ZED1 Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_10" args="0.25 0 0.4 0 0 0 1 cabin_center left_frame1"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_11" args="0 0.120 0 0 0 0 1 left_frame1 right_frame1"/>
-
-    <!--///ZED2 Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_12" args="0.25 0 0.4 0 0 0 1 cabin_center left_frame2"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_13" args="0 0.120 0 0 0 0 1 left_frame2 right_frame2"/>
+    <!--///Transforms///-->
+    <include file="$(dirname)/transforms.launch" />
     
     <!--///Droper///-->
     <node pkg="topic_tools" type="drop" name="drop" args="cloud 3 4"/>
-    
     
     <!--///Bag Playback/// forklifttest1_notf or taptest-->
     <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>

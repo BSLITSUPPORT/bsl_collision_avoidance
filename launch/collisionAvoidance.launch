@@ -1,0 +1,32 @@
+<!--
+Coordinate Transform
+X:  Forward
+Y:  Left
+Z:  Up
+-->
+
+<launch>
+    <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
+    
+    <!--///Connect To Lidars///-->
+    <!--<include file="$(dirname)/MRS6000.launch" />-->
+    
+    <!--///Transforms///-->
+    <include file="$(dirname)/transforms.launch" />
+
+    <!--///Droper 1///-->
+    <node pkg="topic_tools" type="drop" name="drop1" args="cloud 3 4"/>
+    
+    <!--///Droper 2///-->
+    <node pkg="topic_tools" type="drop" name="drop2" args="cloud2 3 4"/>
+    
+    <!--///Occupancy Grid Creaction///-->
+    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1"/>
+    
+    <!--///Object Detection///-->
+    <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>
+    
+    <!--///Bag Playback/// forklifttest1_notf or taptest-->
+    <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>
+    
+</launch>

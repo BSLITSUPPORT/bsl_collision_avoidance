@@ -66,4 +66,5 @@ if __name__ == '__main__':
                 break
         print "Make sure you just enter a single letter"
     print "You have quit the LiDAR Claibration Tools"
+    #write to file
     rospy.spin()

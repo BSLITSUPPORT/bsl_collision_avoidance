@@ -13,7 +13,10 @@ Z:  Up
     
     <!--///Transforms///-->
     <include file="$(dirname)/transforms.launch" />
-
+    
+    <!--///Load Laser Transform///-->
+    <node pkg="bsl_pkg" type="tf2_laser_angle_broadcaster.py" name="tf2_laser_angle_broadcaster" output="screen"/>
+    
     <!--///Droper 1///-->
     <node pkg="topic_tools" type="drop" name="drop1" args="cloud 3 4"/>
     
@@ -21,7 +24,14 @@ Z:  Up
     <node pkg="topic_tools" type="drop" name="drop2" args="cloud2 3 4"/>
     
     <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1"/>
+    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1">
+        <param name="cloud_topic_name" value="cloud_drop"/>
+    </node>
+    
+    <!--///Occupancy Grid Creaction///-->
+    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_2">
+        <param name="cloud_topic_name" value="cloud2_drop"/>
+    </node>
     
     <!--///Object Detection///-->
     <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>

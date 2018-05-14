@@ -12,6 +12,9 @@ from tf2_kdl.tf2_kdl import transform_to_kdl
 
 class SubscribeAndPublish:
     def __init__(self):
+        
+        print rospy.get_param('~cloud_topic_name')
+        
         #Initatie the occupancyGrid
         self.myOccupancyGrid = OccupancyGrid()
         self.myOccupancyGrid.header.frame_id = "map"

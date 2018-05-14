@@ -5,9 +5,12 @@ import tf
 import geometry_msgs.msg
 from time import sleep
 from math import pi
+import rospkg
+
     
 def laser_staticbroadcaster(laser, x, y, z):
     br = tf2_ros.StaticTransformBroadcaster()
+    sleep(1)
     
     t = geometry_msgs.msg.TransformStamped()
     t.header.stamp = rospy.Time.now()
@@ -29,42 +32,28 @@ def laser_staticbroadcaster(laser, x, y, z):
     t.transform.rotation.w = q[3]
     
     br.sendTransform(t)
+    sleep(1)
 
 def degTOrad(deg):
     return float(deg)*pi/180
     
 if __name__ == '__main__':
+    #Initiate Node
     rospy.init_node('tf2_laser_angle_broadcaster')
-    #read file
-    laser_staticbroadcaster(1,0,0,0)
-    sleep(1)
-    laser_staticbroadcaster(2,0,0,0)
     
-    print "You have entered the LiDAR Calibration tool"
-    print "Adjusting LIDAR 1"
-    laser = 1
-    while 1:
-        degrees = raw_input("What is your desired angle? (x, y, z) 'q' to quit. ").split(', ')
-        if len(degrees) == 3:
-            radians = map(degTOrad, degrees)
-            laser_staticbroadcaster(laser, radians[0], radians[1], radians[2])
-        elif degrees[0] == 'q':
-            if laser == 1:
-                print "Adjusting LIDAR 2"
-                laser = 2
-            elif laser == 2:
-                break
-        sleep(1)
-    print "You have stopped making changes"
-    while 1:
-        answer = raw_input("Would you like to commit these changes? 'y'/'n' ").lower()
-        if len(answer) == 1:
-            if answer == 'y':
-                #write
-                break
-            elif answer == 'n':
-                break
-        print "Make sure you just enter a single letter"
-    print "You have quit the LiDAR Claibration Tools"
-    #write to file
+    #read existing laser angles from file
+    rospack = rospkg.RosPack()
+    path = rospack.get_path('bsl_pkg')
+    f = open(path+'/include/systemProperties.txt', 'r')
+    laser1angle = map(float, f.readline().split(','))
+    laser2angle = map(float, f.readline().split(','))
+    f.close()
+    
+    print laser1angle
+    
+    #Load first angle
+    laser_staticbroadcaster(1,0,0,0)
+    laser_staticbroadcaster(2,laser2angle[0],laser2angle[1],laser2angle[2])
+    laser_staticbroadcaster(1,laser1angle[0],laser1angle[1],laser1angle[2])
+    
     rospy.spin()

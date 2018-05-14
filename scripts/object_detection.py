@@ -11,7 +11,7 @@ from scipy.ndimage.measurements import label
 class SubscribeAndPublish:
     def __init__(self):
         #Initate OccupancyGrid Publisher
-        self.pub = rospy.Publisher('MarkerArray', MarkerArray, queue_size=1)
+        self.pub = rospy.Publisher('detected_objects', MarkerArray, queue_size=1)
         #Initiate Point Cloud Subscriber
         self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
         
@@ -24,7 +24,7 @@ class SubscribeAndPublish:
         #Recieve and reshape occupancy grid containing heights of all objects
         self.heightGrid = np.reshape(np.array(occupancygrid.data), (int(occupancygrid.info.height), int(occupancygrid.info.width))).T
         #Binarize the occupancy grid so all grid point above a certain height = 1 and other = 0
-        self.binaryGrid = (self.heightGrid > 0.2).astype(np.int_)
+        self.binaryGrid = (self.heightGrid > 0.3).astype(np.int_)
         #Use scipy.ndimage.measurements.label to complete a connected component algorithim
         structure = np.ones((3, 3), dtype=np.int)
         labeled, ncomponents = label(self.binaryGrid, structure)

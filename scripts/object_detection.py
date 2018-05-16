@@ -1,4 +1,4 @@
-#!/usr/bin/env /usr/bin/python
+#! /usr/bin/env python
 
 import rospy
 import time
@@ -24,7 +24,7 @@ class SubscribeAndPublish:
         #Recieve and reshape occupancy grid containing heights of all objects
         self.heightGrid = np.reshape(np.array(occupancygrid.data), (int(occupancygrid.info.height), int(occupancygrid.info.width))).T
         #Binarize the occupancy grid so all grid point above a certain height = 1 and other = 0
-        self.binaryGrid = (self.heightGrid > 0.3).astype(np.int_)
+        self.binaryGrid = (self.heightGrid > 0.2).astype(np.int_)
         #Use scipy.ndimage.measurements.label to complete a connected component algorithim
         structure = np.ones((3, 3), dtype=np.int)
         labeled, ncomponents = label(self.binaryGrid, structure)

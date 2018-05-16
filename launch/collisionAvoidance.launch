@@ -24,7 +24,7 @@ Z:  Up
     <node pkg="topic_tools" type="drop" name="drop2" args="cloud2 3 4"/>
     
     <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1">
+    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1" output="screen">
         <param name="cloud_topic_name" value="cloud_drop"/>
     </node>
     

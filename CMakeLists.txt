@@ -10,7 +10,6 @@ project(bsl_pkg)
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
-  roscpp
   rospy
   sensor_msgs
   tf2_ros

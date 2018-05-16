@@ -1,10 +1,11 @@
-#!/usr/bin/env /usr/bin/python
+#!/usr/bin/env python
 import rospy
 import tf2_ros
 import tf
 import geometry_msgs.msg
 from time import sleep
 from math import pi
+from numba import jit
 import rospkg
 
     
@@ -33,9 +34,6 @@ def laser_staticbroadcaster(laser, x, y, z):
     
     br.sendTransform(t)
     sleep(1)
-
-def degTOrad(deg):
-    return float(deg)*pi/180
     
 if __name__ == '__main__':
     #Initiate Node
@@ -48,9 +46,7 @@ if __name__ == '__main__':
     laser1angle = map(float, f.readline().split(','))
     laser2angle = map(float, f.readline().split(','))
     f.close()
-    
-    print laser1angle
-    
+
     #Load first angle
     laser_staticbroadcaster(1,0,0,0)
     laser_staticbroadcaster(2,laser2angle[0],laser2angle[1],laser2angle[2])

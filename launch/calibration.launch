@@ -6,8 +6,6 @@ Z:  Up
 -->
 
 <launch>
-    <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
-    
     <!--///Transforms///-->
     <include file="$(dirname)/transforms.launch" />
     

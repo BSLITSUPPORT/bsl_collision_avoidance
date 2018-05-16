@@ -6,7 +6,7 @@ Z:  Up
 -->
 
 <launch>
-    <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
+    <param name="robot_description" textfile="$(find bsl_pkg)/urdf/CTA.urdf" />
     
     <!--///Base_link Transform///-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis"/>

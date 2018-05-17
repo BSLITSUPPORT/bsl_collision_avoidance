@@ -6,6 +6,7 @@ Z:  Up
 -->
 
 <launch>
+    <env name="ROS_IP" value="192.168.1.5"></env>
     <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
     
     <!--///Connect To Lidars///-->
@@ -24,7 +25,7 @@ Z:  Up
     <node pkg="topic_tools" type="drop" name="drop2" args="cloud2 3 4"/>
     
     <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1" output="screen">
+    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1">
         <param name="cloud_topic_name" value="cloud_drop"/>
     </node>
     

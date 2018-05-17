@@ -6,15 +6,9 @@ Z:  Up
 -->
 
 <launch>
-    <!--///Transforms///-->
-    <include file="$(dirname)/transforms.launch" />
-    
-    <!--///Droper///-->
-    <node pkg="topic_tools" type="drop" name="drop" args="cloud 3 4"/>
-    
-    <!--///Bag Playback/// forklifttest1_notf or taptest-->
-    <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>
-    
+    <env name="ROS_MASTER_URI" value="http://192.168.1.5:11311"></env>
+    <env name="ROS_IP" value="192.168.1.4"></env>
+        
     <node pkg="rviz" type="rviz" name="rviz"/>
     
     <node pkg="bsl_pkg" type="tf2_laser_angle_calibrator.py" name="tf2_laser_angle_calibrator" output="screen" launch-prefix="xterm -e"/>

@@ -7,37 +7,36 @@ Z:  Up
 
 <launch>
     <env name="ROS_IP" value="192.168.1.5"></env>
-    <param name="robot_description" textfile="/home/automation/sick_scan_ws/src/bsl_pkg/urdf/CTA.urdf" />
-    
-    <!--///Connect To Lidars///-->
-    <!--<include file="$(dirname)/MRS6000.launch" />-->
-    
-    <!--///Transforms///-->
+    <param name="robot_description" textfile="$(find bsl_pkg)/urdf/CTA.urdf" />
+
+    <!--///Static Transforms///-->
     <include file="$(dirname)/transforms.launch" />
     
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_10" args="0 0 0.1 0.0209439510239 -0.207694180987 0 laser_mount1 laser1"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_11" args="0 0 0.1 0 0 0 laser_mount2 laser2"/>
+    
     <!--///Load Laser Transform///-->
+<!--
     <node pkg="bsl_pkg" type="tf2_laser_angle_broadcaster.py" name="tf2_laser_angle_broadcaster" output="screen"/>
+-->
     
-    <!--///Droper 1///-->
-    <node pkg="topic_tools" type="drop" name="drop1" args="cloud 3 4"/>
+    <!--///Running Laser 1///-->
+    <include file="$(find bsl_pkg)/launch/MRS6000_ns.launch">
+        <arg name="name_space" value="1" /> 
+        <arg name="laser_ip" value="192.168.1.7" />
+        <arg name="laser_frame" value="laser1" />
+    </include>
     
-    <!--///Droper 2///-->
-    <node pkg="topic_tools" type="drop" name="drop2" args="cloud2 3 4"/>
-    
-    <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1">
-        <param name="cloud_topic_name" value="cloud_drop"/>
-    </node>
-    
-    <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_2">
-        <param name="cloud_topic_name" value="cloud2_drop"/>
-    </node>
-    
-    <!--///Object Detection///-->
-    <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>
+    <!--///Running Laser 2///-->
+    <include file="$(find bsl_pkg)/launch/MRS6000_ns.launch">
+        <arg name="name_space" value="2" /> 
+        <arg name="laser_ip" value="192.168.1.8" />
+        <arg name="laser_frame" value="laser2" />
+    </include>
     
     <!--///Bag Playback/// forklifttest1_notf or taptest-->
+<!--
     <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>
+-->
     
 </launch>

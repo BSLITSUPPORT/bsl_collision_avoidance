@@ -4,20 +4,17 @@ import tf2_ros
 import tf
 import geometry_msgs.msg
 from time import sleep
-from math import pi
-from numba import jit
 import rospkg
 
     
 def laser_staticbroadcaster(laser, x, y, z):
     br = tf2_ros.StaticTransformBroadcaster()
-    sleep(1)
     
     t = geometry_msgs.msg.TransformStamped()
     t.header.stamp = rospy.Time.now()
     if laser == 1:
         t.header.frame_id = "laser_mount"
-        t.child_frame_id = "laser"
+        t.child_frame_id = "laser1"
     elif laser == 2:
         t.header.frame_id = "laser_mount2"
         t.child_frame_id = "laser2"
@@ -38,18 +35,21 @@ def laser_staticbroadcaster(laser, x, y, z):
 if __name__ == '__main__':
     #Initiate Node
     rospy.init_node('tf2_laser_angle_broadcaster')
+    rate = rospy.Rate(10)
     
-    #read existing laser angles from file
+    #Open file
     rospack = rospkg.RosPack()
     path = rospack.get_path('bsl_pkg')
     f = open(path+'/include/systemProperties.txt', 'r')
+    
+    #Read first line which contains laser1 angles
     laser1angle = map(float, f.readline().split(','))
     laser2angle = map(float, f.readline().split(','))
-    f.close()
 
-    #Load first angle
-    laser_staticbroadcaster(1,0,0,0)
-    laser_staticbroadcaster(2,laser2angle[0],laser2angle[1],laser2angle[2])
+    f.close()
+    
+    #Broadcast Laser1 Angles
     laser_staticbroadcaster(1,laser1angle[0],laser1angle[1],laser1angle[2])
+    laser_staticbroadcaster(2,laser2angle[0],laser2angle[1],laser2angle[2])
     
     rospy.spin()

@@ -16,8 +16,6 @@ class SubscribeAndPublish:
         self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
         
     def callback(self, occupancygrid):
-        t2 = time.time()
-        
         #Initatie the MarkerArray
         self.myMarkerArray = MarkerArray()
         self.myMarkerArray.markers = []
@@ -59,8 +57,6 @@ class SubscribeAndPublish:
         
         for cc in newcclist:
             self.myMarkerArray.markers.append(cc.getMarker())
-
-        rospy.loginfo('t2: '+str(time.time()-t2))
         
         #Publish MarkerArray
         self.pub.publish(self.myMarkerArray)
@@ -142,7 +138,8 @@ class ConnectedComponent:
     #Function that creates and returns a Cube marker
     def getMarker(self):
         marker = Marker()
-        marker.header.frame_id = "map"
+        ns = rospy.get_namespace()
+        marker.header.frame_id = "grid"+ns[1]
         marker.header.stamp = rospy.Time()
         marker.ns = "shape_namespace"
         marker.id = self.idnum

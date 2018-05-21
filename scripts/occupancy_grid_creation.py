@@ -11,36 +11,40 @@ from nav_msgs.msg import OccupancyGrid
 from tf2_kdl.tf2_kdl import transform_to_kdl
 
 class SubscribeAndPublish(object):
-    def __init__(self):        
+    def __init__(self, ns, frame):
+        #Store Namespace
+        self.ns = ns[1]
+        self.frame = frame
+
         #Initatie the occupancyGrid
         self.myOccupancyGrid = OccupancyGrid()
-        self.myOccupancyGrid.header.frame_id = "map"
+        self.myOccupancyGrid.header.frame_id = "grid"+self.ns
         self.myOccupancyGrid.info.resolution = 0.1
         self.myOccupancyGrid.info.width = 30/self.myOccupancyGrid.info.resolution #x
         self.myOccupancyGrid.info.height = 3.5/self.myOccupancyGrid.info.resolution #y
         self.myOccupancyGrid.info.origin.position.x = 5.5
-        self.myOccupancyGrid.info.origin.position.y = -1.5
+        self.myOccupancyGrid.info.origin.position.y = -( (float(self.ns)+2)/2 )
         self.myOccupancyGrid.info.origin.position.z = 0
         self.myOccupancyGrid.info.origin.orientation.x = 0
         self.myOccupancyGrid.info.origin.orientation.y = 0
         self.myOccupancyGrid.info.origin.orientation.z = 0
         self.myOccupancyGrid.info.origin.orientation.w = 0
         
-        #Find Transform
+        #Initiate Transform Buffer and Listener
         self.tfBuffer = tf2_ros.Buffer()
         self.listener = tf2_ros.TransformListener(self.tfBuffer)
-        
+
         #Initate OccupancyGrid Publisher
         self.pub = rospy.Publisher('OccGrid', OccupancyGrid, queue_size=1)
         
         #Initiate Point Cloud Subscriber
-        self.sub = rospy.Subscriber(str(rospy.get_param('~cloud_topic_name')), PointCloud2, self.callback)
+        self.sub = rospy.Subscriber('cloud_drop', PointCloud2, self.callback)
     
     def callback(self, cloud):
         t1 = time.time()
         #Recieve transform from buffer between laser and map
         try:
-            t = self.tfBuffer.lookup_transform('map', 'laser', rospy.Time(0))
+            t = self.tfBuffer.lookup_transform(self.myOccupancyGrid.header.frame_id, self.frame, rospy.Time(0))
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             return
         
@@ -78,7 +82,7 @@ class SubscribeAndPublish(object):
         #Publish OccupancyGrid
         self.pub.publish(self.myOccupancyGrid)
         
-        rospy.loginfo('t1: '+str(time.time()-t1))
+        rospy.loginfo(self.ns+' t1: '+str(time.time()-t1))
     
     #Read points from cloud and transform into map frame
     @jit
@@ -101,8 +105,12 @@ if __name__ == '__main__':
     #Initiate the Node
     rospy.init_node('collision_detection', anonymous=True)
     
+    #Get Namespace
+    ns = rospy.get_namespace()
+    frame = rospy.get_param('~laser_frame')
+    
     #Initiate object
-    a = SubscribeAndPublish()
+    a = SubscribeAndPublish(ns, frame)
     
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

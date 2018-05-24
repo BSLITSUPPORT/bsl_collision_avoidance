@@ -14,6 +14,7 @@
             <param name="timelimit" type="int" value="5" />
             <param name="min_ang" type="double" value="-1.047197333" />
             <param name="max_ang" type="double" value="+1.047197333" />
+            <param name="scanner_type" type="string" value="sick_mrs_6xxx" />
         </node>
         
          <!--///Message Dropper///-->

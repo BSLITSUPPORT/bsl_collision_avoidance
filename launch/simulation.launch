@@ -6,7 +6,7 @@ Z:  Up
 -->
 
 <launch>
-    <param name="robot_description" textfile="$(find bsl_pkg)/urdf/CTA.urdf" />
+    <param name="robot_description" textfile="$(find bsl_collision_avoidance)/urdf/CTA.urdf" />
     
     <!--///Base_link Transform///-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis"/>
@@ -29,10 +29,10 @@ Z:  Up
     <node pkg="topic_tools" type="drop" name="drop" args="cloud 3 4"/>
     
     <!--///Occupancy Grid Creaction///-->
-    <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1"/>
+    <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation_1"/>
     
     <!--///Object Detection///-->
-    <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>
+    <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection"/>
     
     <!--///Bag Playback/// forklifttest1_notf or taptest-->
     <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>

@@ -51,7 +51,7 @@ if __name__ == '__main__':
     
     #read existing laser angles from file
     rospack = rospkg.RosPack()
-    path = rospack.get_path('bsl_pkg')
+    path = rospack.get_path('bsl_collision_avoidance')
     f = open(path+'/include/systemProperties.txt', 'r')
     laser1angle = map(float, f.readline().split(','))
     laser2angle = map(float, f.readline().split(','))

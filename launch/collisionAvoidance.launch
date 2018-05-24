@@ -7,7 +7,7 @@ Z:  Up
 
 <launch>
     <env name="ROS_IP" value="192.168.1.5"></env>
-    <param name="robot_description" textfile="$(find bsl_pkg)/urdf/CTA.urdf" />
+    <param name="robot_description" textfile="$(find bsl_collision_avoidance)/urdf/CTA.urdf" />
 
     <!--///Static Transforms///-->
     <include file="$(dirname)/transforms.launch" />
@@ -17,18 +17,18 @@ Z:  Up
     
     <!--///Load Laser Transform///-->
 <!--
-    <node pkg="bsl_pkg" type="tf2_laser_angle_broadcaster.py" name="tf2_laser_angle_broadcaster" output="screen"/>
+    <node pkg="bsl_collision_avoidance" type="tf2_laser_angle_broadcaster.py" name="tf2_laser_angle_broadcaster" output="screen"/>
 -->
     
     <!--///Running Laser 1///-->
-    <include file="$(find bsl_pkg)/launch/MRS6000_ns.launch">
+    <include file="$(find bsl_collision_avoidance)/launch/MRS6000_ns.launch">
         <arg name="name_space" value="1" /> 
         <arg name="laser_ip" value="192.168.1.7" />
         <arg name="laser_frame" value="laser1" />
     </include>
     
     <!--///Running Laser 2///-->
-    <include file="$(find bsl_pkg)/launch/MRS6000_ns.launch">
+    <include file="$(find bsl_collision_avoidance)/launch/MRS6000_ns.launch">
         <arg name="name_space" value="2" /> 
         <arg name="laser_ip" value="192.168.1.8" />
         <arg name="laser_frame" value="laser2" />

@@ -20,12 +20,12 @@
         <node pkg="topic_tools" type="drop" name="drop" args="cloud 3 4"/>
         
         <!--///Occupancy Grid Creaction///-->
-        <node pkg="bsl_pkg" type="occupancy_grid_creation.py" name="occupancy_grid_creation" output="screen">
+        <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" output="screen">
             <param name="laser_frame" value="$(arg laser_frame)"/>
         </node>
         
         <!--///Object Detection///-->
-        <node pkg="bsl_pkg" type="object_detection.py" name="object_detection"/>
+        <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection"/>
         
     </group>
 </launch>

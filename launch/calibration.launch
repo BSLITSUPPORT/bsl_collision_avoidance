@@ -11,5 +11,5 @@ Z:  Up
         
     <node pkg="rviz" type="rviz" name="rviz"/>
     
-    <node pkg="bsl_pkg" type="tf2_laser_angle_calibrator.py" name="tf2_laser_angle_calibrator" output="screen" launch-prefix="xterm -e"/>
+    <node pkg="bsl_collision_avoidance" type="tf2_laser_angle_calibrator.py" name="tf2_laser_angle_calibrator" output="screen" launch-prefix="xterm -e"/>
 </launch>

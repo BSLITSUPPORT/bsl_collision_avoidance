@@ -39,7 +39,7 @@ if __name__ == '__main__':
     
     #Open file
     rospack = rospkg.RosPack()
-    path = rospack.get_path('bsl_pkg')
+    path = rospack.get_path('bsl_collision_avoidance')
     f = open(path+'/include/systemProperties.txt', 'r')
     
     #Read first line which contains laser1 angles

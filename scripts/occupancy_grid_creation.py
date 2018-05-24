@@ -5,7 +5,6 @@ import tf2_ros
 import PyKDL
 import time
 import numpy as np
-from numba import *
 from sensor_msgs.msg import PointCloud2
 from nav_msgs.msg import OccupancyGrid
 from tf2_kdl.tf2_kdl import transform_to_kdl
@@ -85,7 +84,6 @@ class SubscribeAndPublish(object):
         rospy.loginfo(self.ns+' t1: '+str(time.time()-t1))
     
     #Read points from cloud and transform into map frame
-    @jit
     def readAndTransformPoints(self, cloud, tran):
         fmt="ffff"
         width, height, point_step, row_step, data = cloud.width, cloud.height, cloud.point_step, cloud.row_step, cloud.data

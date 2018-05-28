@@ -6,10 +6,12 @@ Z:  Up
 -->
 
 <launch>
-    <!--///Base_link Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_2" args="0 0 0 0 0 0 map grid1"/>
+	<!--///Occupancy Grid Transforms///-->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_2" args="0 0 0 0 0 0 map grid1"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_3" args="0 0 0 3.141592654 0 0 map grid2"/>
+	
+    <!--///Cabin Transforms///-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_4" args="0.515 2.225 0 0 0 -0.707107019200454 0.707106543172561 turret_axis cabin_lift"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_5" args="-0.198 -0.6995 0 0 0 0 1 cabin_lift cabin_center"/>
     
@@ -17,10 +19,12 @@ Z:  Up
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_6" args="3.770 0 0 0 0 0 1 turret_axis crucible_left"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_7" args="-3.770 0 0 0 0 0 1 turret_axis crucible_right"/>
     
-    <!--///Laser 1 Transform///-->      <!-- -0.2094395102 0.0174532952 or -0.1448623279 0-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 -1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center laser_mount1"/>
+    <!--///Laser 1 Transform///-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 1.3075 0 -0.7071065431724 0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center laser_mount1"/>
+    
+    <!--///Laser 2 Transform///-->      <!-- -0.2094395102 0.0174532952 or -0.1448623279 0-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_9" args="-0.4767 -1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center laser_mount2"/>
 
-    <!--///Laser 2 Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_9" args="-0.4767 1.3075 0 -0.7071065431724 0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center laser_mount2"/>
+    
     
 </launch>

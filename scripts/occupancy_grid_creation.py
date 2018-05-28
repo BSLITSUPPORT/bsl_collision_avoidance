@@ -10,24 +10,24 @@ from nav_msgs.msg import OccupancyGrid
 from tf2_kdl.tf2_kdl import transform_to_kdl
 
 class SubscribeAndPublish(object):
-    def __init__(self, ns, frame):
+    def __init__(self, ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y):
         #Store Namespace
         self.ns = ns[1]
-        self.frame = frame
+        self.laser_frame = laser_frame
 
         #Initatie the occupancyGrid
         self.myOccupancyGrid = OccupancyGrid()
-        self.myOccupancyGrid.header.frame_id = "grid"+self.ns
+        self.myOccupancyGrid.header.frame_id = grid_frame
         self.myOccupancyGrid.info.resolution = 0.1
-        self.myOccupancyGrid.info.width = 30/self.myOccupancyGrid.info.resolution #x
-        self.myOccupancyGrid.info.height = 3.5/self.myOccupancyGrid.info.resolution #y
-        self.myOccupancyGrid.info.origin.position.x = 5.5
-        self.myOccupancyGrid.info.origin.position.y = -( (float(self.ns)+2)/2 )
+        self.myOccupancyGrid.info.width = grid_width/self.myOccupancyGrid.info.resolution #x
+        self.myOccupancyGrid.info.height = grid_height/self.myOccupancyGrid.info.resolution #y
+        self.myOccupancyGrid.info.origin.position.x = grid_x
+        self.myOccupancyGrid.info.origin.position.y = grid_y
         self.myOccupancyGrid.info.origin.position.z = 0
         self.myOccupancyGrid.info.origin.orientation.x = 0
         self.myOccupancyGrid.info.origin.orientation.y = 0
         self.myOccupancyGrid.info.origin.orientation.z = 0
-        self.myOccupancyGrid.info.origin.orientation.w = 0
+        self.myOccupancyGrid.info.origin.orientation.w = 1
         
         #Initiate Transform Buffer and Listener
         self.tfBuffer = tf2_ros.Buffer()
@@ -43,7 +43,7 @@ class SubscribeAndPublish(object):
         t1 = time.time()
         #Recieve transform from buffer between laser and map
         try:
-            t = self.tfBuffer.lookup_transform(self.myOccupancyGrid.header.frame_id, self.frame, rospy.Time(0))
+            t = self.tfBuffer.lookup_transform(self.myOccupancyGrid.header.frame_id, self.laser_frame, rospy.Time(0))
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             return
         
@@ -82,6 +82,7 @@ class SubscribeAndPublish(object):
         self.pub.publish(self.myOccupancyGrid)
         
         rospy.loginfo(self.ns+' t1: '+str(time.time()-t1))
+        
     
     #Read points from cloud and transform into map frame
     def readAndTransformPoints(self, cloud, tran):
@@ -105,10 +106,15 @@ if __name__ == '__main__':
     
     #Get Namespace
     ns = rospy.get_namespace()
-    frame = rospy.get_param('~laser_frame')
+    laser_frame = rospy.get_param('~laser_frame')
+    grid_frame = rospy.get_param('~grid_frame')
+    grid_height = rospy.get_param('~grid_height')
+    grid_width = rospy.get_param('~grid_width')
+    grid_x = rospy.get_param('~grid_x')
+    grid_y = rospy.get_param('~grid_y')
     
     #Initiate object
-    a = SubscribeAndPublish(ns, frame)
+    a = SubscribeAndPublish(ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y)
     
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

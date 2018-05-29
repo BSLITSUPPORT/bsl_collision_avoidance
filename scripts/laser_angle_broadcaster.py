@@ -3,11 +3,10 @@ import rospy
 import tf2_ros
 import tf
 from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import Transform
 import rospkg
 
-def callback(transform):
-	pass
-	
+
 def laser_broadcaster(laser_frame, parent_frame, x, y, z):
     br = tf2_ros.StaticTransformBroadcaster()
     
@@ -47,7 +46,5 @@ if __name__ == '__main__':
 
 	#Broadcast Laser Angles
 	laser_broadcaster(laser_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2])
-	
-	sub = rospy.Subscriber('calibratorTransform', TransformStamped, callback)
 
 	rospy.spin()

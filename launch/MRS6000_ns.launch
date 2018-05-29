@@ -8,7 +8,7 @@
 	<arg name="grid_width" />
 	<arg name="grid_x" />
 	<arg name="grid_y" />
-	
+	<arg name="digital_pin" />
 	
     <group ns="$(arg name_space)">
         <!--///LiDAR///-->
@@ -25,7 +25,7 @@
         </node>
         
         <!--///Frame///-->
-        <node pkg="bsl_collision_avoidance" type="laser_angle_broadcaster.py" name="laser_angle_broadcaster" output="screen">
+        <node pkg="bsl_collision_avoidance" type="laser_angle_broadcaster.py" name="laser_angle_broadcaster" >
 			<param name="laser_frame"  value="$(arg laser_frame)" />
 			<param name="parent_frame"  value="$(arg parent_frame)" />
 		</node>
@@ -45,6 +45,11 @@
         
         <!--///Object Detection///-->
         <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection"/>
+        
+        <!--///Object Detection///-->
+        <node pkg="bsl_collision_avoidance" type="digital_IO.py" name="digital_IO">
+			<param name="digital_pin" value="$(arg digital_pin)"/>
+		</node>
         
     </group>
 </launch>

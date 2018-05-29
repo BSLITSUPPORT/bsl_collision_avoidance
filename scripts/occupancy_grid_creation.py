@@ -104,7 +104,7 @@ if __name__ == '__main__':
     #Initiate the Node
     rospy.init_node('collision_detection', anonymous=True)
     
-    #Get Namespace
+    #Get ROS Parameters
     ns = rospy.get_namespace()
     laser_frame = rospy.get_param('~laser_frame')
     grid_frame = rospy.get_param('~grid_frame')

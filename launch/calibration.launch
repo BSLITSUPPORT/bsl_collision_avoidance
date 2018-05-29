@@ -1,15 +1,8 @@
-<!--
-Coordinate Transform
-X:  Forward
-Y:  Left
-Z:  Up
--->
-
 <launch>
     <env name="ROS_MASTER_URI" value="http://192.168.1.5:11311"></env>
     <env name="ROS_IP" value="192.168.1.4"></env>
         
     <node pkg="rviz" type="rviz" name="rviz"/>
     
-    <node pkg="bsl_collision_avoidance" type="tf2_laser_angle_calibrator.py" name="tf2_laser_angle_calibrator" output="screen" launch-prefix="xterm -e"/>
+    <node pkg="bsl_collision_avoidance" type="laser_angle_talker.py" name="laser_angle_talker" output="screen" launch-prefix="xterm -e"/>
 </launch>

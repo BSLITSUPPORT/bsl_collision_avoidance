@@ -11,38 +11,36 @@ Z:  Up
 
     <!--///Static Transforms///-->
     <include file="$(dirname)/transforms.launch" />
+    
+    <!--///Laser Angle Listener for Calibration///-->
+    <node pkg="bsl_collision_avoidance" type="laser_angle_listener.py" name="laser_angle_listener" />
 
-    <!--///Running Laser 1///-->
+    <!--///Running Laser 1 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">
         <arg name="name_space" value="1" /> 
         <arg name="laser_ip" value="192.168.1.7" />
         <arg name="laser_frame" value="laser1" />
-        
         <arg name="parent_frame" value="laser_mount1" />
         <arg name="grid_frame" value="grid1" />
         <arg name="grid_height" value="4" />
         <arg name="grid_width" value="30" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
+        <arg name="digital_pin" value="1" />
     </include>
     
-    <!--///Running Laser 2///-->
+    <!--///Running Laser 2 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">
         <arg name="name_space" value="2" /> 
         <arg name="laser_ip" value="192.168.1.8" />
         <arg name="laser_frame" value="laser2" />
-        
         <arg name="parent_frame" value="laser_mount2" />
         <arg name="grid_frame" value="grid2" />
         <arg name="grid_height" value="4" />
         <arg name="grid_width" value="30" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
+        <arg name="digital_pin" value="2"/>
     </include>
-    
-    <!--///Bag Playback/// forklifttest1_notf or taptest-->
-<!--
-    <node pkg="rosbag" type="play" name="play" args="-l -q /home/automation/forklifttest1_notf.bag"/>
--->
     
 </launch>

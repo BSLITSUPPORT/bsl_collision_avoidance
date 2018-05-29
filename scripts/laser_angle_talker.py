@@ -65,6 +65,4 @@ if __name__ == '__main__':
         sleep(1)
     print "You have stopped making changes"
     print "Quiting the LiDAR Claibration Tool"
-    sleep(1)
-    
-    rospy.spin()
+    sleep(2)

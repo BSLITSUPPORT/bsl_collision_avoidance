@@ -13,7 +13,7 @@ Z:  Up
     <include file="$(dirname)/transforms.launch" />
     
     <!--///Laser Angle Listener for Calibration///-->
-    <node pkg="bsl_collision_avoidance" type="laser_angle_listener.py" name="laser_angle_listener" />
+    <node pkg="bsl_collision_avoidance" type="laser_angle_listener.py" name="laser_angle_listener" output="screen"/>
 
     <!--///Running Laser 1 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">

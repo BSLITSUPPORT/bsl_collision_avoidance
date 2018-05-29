@@ -34,7 +34,7 @@
         <node pkg="topic_tools" type="drop" name="drop" args="cloud 4 5"/>
         
         <!--///Occupancy Grid Creaction///-->
-        <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" output="screen">
+        <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" >
             <param name="laser_frame" value="$(arg laser_frame)"/>
             <param name="grid_frame" value="$(arg grid_frame)"/>
             <param name="grid_height" value="$(arg grid_height)"/>

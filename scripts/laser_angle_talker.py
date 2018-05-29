@@ -60,8 +60,8 @@ if __name__ == '__main__':
 				current_angle_deg = [0, 0, 0]    
             elif laser == 2:
                 break
-            else:
-				print "You have not given a valid Input"
+		else:
+			print "You have not given a valid Input"
         sleep(1)
     print "You have stopped making changes"
     print "Quiting the LiDAR Claibration Tool"

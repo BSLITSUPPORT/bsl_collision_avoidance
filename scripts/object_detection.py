@@ -159,7 +159,7 @@ class ConnectedComponent:
         marker.color.r = 1
         marker.color.g = 0
         marker.color.b = 0
-        marker.lifetime = rospy.Duration(0.4) 
+        marker.lifetime = rospy.Duration(0.6) 
         marker.mesh_resource = ""
         return marker
 

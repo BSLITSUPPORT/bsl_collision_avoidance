@@ -23,7 +23,7 @@ Z:  Up
         <arg name="parent_frame" value="laser_mount1" />
         <arg name="grid_frame" value="grid1" />
         <arg name="grid_height" value="4" />
-        <arg name="grid_width" value="30" />
+        <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
         <arg name="digital_pin" value="1" />
@@ -37,7 +37,7 @@ Z:  Up
         <arg name="parent_frame" value="laser_mount2" />
         <arg name="grid_frame" value="grid2" />
         <arg name="grid_height" value="4" />
-        <arg name="grid_width" value="30" />
+        <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
         <arg name="digital_pin" value="2"/>

@@ -19,7 +19,7 @@ def callback(marker_array, pin):
 			print "Can't connect to ADAM"
 
 if __name__ == '__main__':
-	rospy.init_node('digital_IO', anonymous=True)
+	rospy.init_node('digital_IO')
 	
 	digital_pin = rospy.get_param('~digital_pin')
 	rospy.Subscriber("detected_objects", MarkerArray, callback, digital_pin)

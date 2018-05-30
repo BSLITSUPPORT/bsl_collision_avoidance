@@ -13,7 +13,7 @@ class SubscribeAndPublish:
         #Initate OccupancyGrid Publisher
         self.pub = rospy.Publisher('detected_objects', MarkerArray, queue_size=1)
         #Initiate Point Cloud Subscriber
-        self.sub = rospy.Subscriber('OccGrid', OccupancyGrid, self.callback)
+        self.sub = rospy.Subscriber('occupancy_grid', OccupancyGrid, self.callback)
         
     def callback(self, occupancygrid):
         #Initatie the MarkerArray
@@ -139,7 +139,7 @@ class ConnectedComponent:
     def getMarker(self):
         marker = Marker()
         ns = rospy.get_namespace()
-        marker.header.frame_id = "grid"+ns[1]
+        marker.header.frame_id = rospy.get_param('~grid_frame')
         marker.header.stamp = rospy.Time()
         marker.ns = "shape_namespace"
         marker.id = self.idnum
@@ -164,11 +164,11 @@ class ConnectedComponent:
         return marker
 
 if __name__ == '__main__':
-    #Initiate the Node
-    rospy.init_node('object_detection', anonymous=True)
-    
-    #Initiate Subscriber and Publisher object
-    a = SubscribeAndPublish()
-    
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+	#Initiate the Node
+	rospy.init_node('object_detection')
+
+	#Initiate Subscriber and Publisher object
+	a = SubscribeAndPublish()
+
+	# spin() simply keeps python from exiting until this node is stopped
+	rospy.spin()

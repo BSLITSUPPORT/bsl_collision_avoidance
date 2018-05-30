@@ -9,7 +9,7 @@
 	<arg name="grid_x" />
 	<arg name="grid_y" />
 	<arg name="digital_pin" />
-	
+
     <group ns="$(arg name_space)">
         <!--///LiDAR///-->
         <node name="sick_mrs_6xxx" pkg="sick_scan" type="sick_generic_caller" respawn="false" output="screen">
@@ -25,16 +25,16 @@
         </node>
         
         <!--///Frame///-->
-        <node pkg="bsl_collision_avoidance" type="laser_angle_broadcaster.py" name="laser_angle_broadcaster" >
+        <node pkg="bsl_collision_avoidance" type="laser_angle_broadcaster.py" name="laser_angle_broadcaster" respawn="true">
 			<param name="laser_frame"  value="$(arg laser_frame)" />
 			<param name="parent_frame"  value="$(arg parent_frame)" />
 		</node>
         
         <!--///Message Dropper///-->
-        <node pkg="topic_tools" type="drop" name="drop" args="cloud 4 5"/>
+        <node pkg="topic_tools" type="drop" name="drop" args="cloud 4 5" respawn="true"/>
         
         <!--///Occupancy Grid Creaction///-->
-        <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" >
+        <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" respawn="true">
             <param name="laser_frame" value="$(arg laser_frame)"/>
             <param name="grid_frame" value="$(arg grid_frame)"/>
             <param name="grid_height" value="$(arg grid_height)"/>
@@ -44,12 +44,35 @@
         </node>
         
         <!--///Object Detection///-->
-        <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection"/>
-        
-        <!--///Object Detection///-->
-        <node pkg="bsl_collision_avoidance" type="digital_IO.py" name="digital_IO">
-			<param name="digital_pin" value="$(arg digital_pin)"/>
+        <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection" respawn="true">
+			<param name="grid_frame" value="$(arg grid_frame)"/>
 		</node>
         
+        <!--///Digital I/O///-->
+        <node pkg="bsl_collision_avoidance" type="digital_IO.py" name="digital_IO" respawn="true">
+			<param name="digital_pin" value="$(arg digital_pin)"/>
+		</node>
+		
+		<!--///Topic WatchDogs///-->
+		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_1" respawn="true">
+			<param name="topic" value="cloud"/>
+			<param name="topic_type" value="sensor_msgs.msg.PointCloud2"/>
+			<param name="timeout" value="0.5"/>
+		</node>
+		
+				
+		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_2" respawn="true">
+			<param name="topic" value="occupancy_grid"/>
+			<param name="topic_type" value="nav_msgs.msg.OccupancyGrid"/>
+			<param name="timeout" value="1.5"/>
+		</node>
+		
+		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_3" respawn="true">
+			<param name="topic" value="detected_objects"/>
+			<param name="topic_type" value="visualization_msgs.msg.MarkerArray"/>
+			<param name="timeout" value="1.5"/>
+		</node>
+
+
     </group>
 </launch>

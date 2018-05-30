@@ -34,7 +34,7 @@ class SubscribeAndPublish(object):
         self.listener = tf2_ros.TransformListener(self.tfBuffer)
 
         #Initate OccupancyGrid Publisher
-        self.pub = rospy.Publisher('OccGrid', OccupancyGrid, queue_size=1)
+        self.pub = rospy.Publisher('occupancy_grid', OccupancyGrid, queue_size=1)
         
         #Initiate Point Cloud Subscriber
         self.sub = rospy.Subscriber('cloud_drop', PointCloud2, self.callback)
@@ -101,20 +101,20 @@ class SubscribeAndPublish(object):
         return a
 
 if __name__ == '__main__':
-    #Initiate the Node
-    rospy.init_node('collision_detection', anonymous=True)
-    
-    #Get ROS Parameters
-    ns = rospy.get_namespace()
-    laser_frame = rospy.get_param('~laser_frame')
-    grid_frame = rospy.get_param('~grid_frame')
-    grid_height = rospy.get_param('~grid_height')
-    grid_width = rospy.get_param('~grid_width')
-    grid_x = rospy.get_param('~grid_x')
-    grid_y = rospy.get_param('~grid_y')
-    
-    #Initiate object
-    a = SubscribeAndPublish(ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y)
-    
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+	#Initiate the Node
+	rospy.init_node('collision_detection')
+
+	#Get ROS Parameters
+	ns = rospy.get_namespace()
+	laser_frame = rospy.get_param('~laser_frame')
+	grid_frame = rospy.get_param('~grid_frame')
+	grid_height = rospy.get_param('~grid_height')
+	grid_width = rospy.get_param('~grid_width')
+	grid_x = rospy.get_param('~grid_x')
+	grid_y = rospy.get_param('~grid_y')
+
+	#Initiate object
+	a = SubscribeAndPublish(ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y)
+
+	# spin() simply keeps python from exiting until this node is stopped
+	rospy.spin()

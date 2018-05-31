@@ -12,7 +12,7 @@
 
     <group ns="$(arg name_space)">
         <!--///LiDAR///-->
-        <node name="sick_mrs_6xxx" pkg="sick_scan" type="sick_generic_caller" respawn="false" output="screen">
+        <node name="sick_mrs_6xxx" pkg="sick_scan" type="sick_generic_caller" respawn="true" output="screen">
             <param name="filter_echos" type="int" value="2"/>
             <param name="frame_id" type="str" value="$(arg laser_frame)" />
             <param name="range_max" type="double" value="50.0" />
@@ -72,7 +72,6 @@
 			<param name="topic_type" value="visualization_msgs.msg.MarkerArray"/>
 			<param name="timeout" value="1.5"/>
 		</node>
-
 
     </group>
 </launch>

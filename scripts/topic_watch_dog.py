@@ -22,7 +22,7 @@ class SubscribeAndPublish(object):
 				self.pub.publish(rospy.get_namespace()+topic+" 0")
 			else:
 				self.pub.publish(rospy.get_namespace()+topic+" 1")
-			sleep(0.1)
+			sleep(timeout/3)
 			
     
     def callback(self, cloud):

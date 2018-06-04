@@ -25,7 +25,7 @@
         </node>
         
         <!--///Frame///-->
-        <node pkg="bsl_collision_avoidance" type="laser_angle_broadcaster.py" name="laser_angle_broadcaster" respawn="true">
+        <node pkg="bsl_collision_avoidance" type="initialise_LIDAR_transform.py" name="initialise_LIDAR_transform" respawn="true">
 			<param name="laser_frame"  value="$(arg laser_frame)" />
 			<param name="parent_frame"  value="$(arg parent_frame)" />
 		</node>

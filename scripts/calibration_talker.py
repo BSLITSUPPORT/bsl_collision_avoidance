@@ -1,4 +1,13 @@
 #! /usr/bin/env python
+
+#####################################################################
+# Node Details:														#
+# 																	#
+# This Node is used to calibrate the LIDAR transforms, it does		#
+# this by requesting a user input and broadcasting that transform	#
+# to the calibrator topic.											#
+#####################################################################
+
 import rospy
 import tf2_ros
 import tf
@@ -7,11 +16,12 @@ from time import sleep
 from math import pi
 import rospkg
 
-def get_transform(laser_frame, parent_frame, x, y, z):
+def get_transform(child_frame, parent_frame, x, y, z):
+    #Create Transform with specifications given from inputs
 	t = TransformStamped()
 	t.header.stamp = rospy.Time.now()
 	t.header.frame_id = parent_frame
-	t.child_frame_id = laser_frame
+	t.child_frame_id = child_frame
 	t.transform.translation.x = 0
 	t.transform.translation.y = 0
 	t.transform.translation.z = 0.1
@@ -20,14 +30,12 @@ def get_transform(laser_frame, parent_frame, x, y, z):
 	t.transform.rotation.y = q[1]
 	t.transform.rotation.z = q[2]
 	t.transform.rotation.w = q[3]
-
+	#Return Transform
 	return t
 
-# Converts a number from degrees to radians
 def degTOrad(deg):
     return float(deg)*pi/180
 
-# Converts a number from radians to degrees
 def radTodeg(rad):
     return float(rad)*180/pi
     
@@ -35,7 +43,7 @@ if __name__ == '__main__':
     #Initiate Node
     rospy.init_node('tf2_laser_angle_calibrator')
     
-    pub = rospy.Publisher('calibratorTransform', TransformStamped, queue_size=1)
+    pub = rospy.Publisher('calibrator', TransformStamped, queue_size=1)
     
     #Calibration section user prompts
     print "You have entered the LiDAR Calibration tool"

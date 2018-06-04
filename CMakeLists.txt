@@ -9,12 +9,14 @@ project(bsl_collision_avoidance)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  std_msgs
   nav_msgs
   rospy
   sensor_msgs
   tf2_ros
   tf2_sensor_msgs
   visualization_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,11 +53,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  TopicFailure.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -72,10 +73,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   sensor_msgs#   tf2_sensor_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -109,7 +110,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES bsl_collision_avoidance
-#  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs tf2_ros tf2_sensor_msgs
+  CATKIN_DEPENDS message_runtime geometry_msgs nav_msgs rospy sensor_msgs tf2_ros tf2_sensor_msgs
 #  DEPENDS system_lib
 )
 

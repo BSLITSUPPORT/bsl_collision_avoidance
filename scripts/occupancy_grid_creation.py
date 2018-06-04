@@ -40,7 +40,6 @@ class SubscribeAndPublish(object):
         self.sub = rospy.Subscriber('cloud_drop', PointCloud2, self.callback)
     
     def callback(self, cloud):
-        t1 = time.time()
         #Recieve transform from buffer between laser and map
         try:
             t = self.tfBuffer.lookup_transform(self.myOccupancyGrid.header.frame_id, self.laser_frame, rospy.Time(0))
@@ -80,10 +79,8 @@ class SubscribeAndPublish(object):
         
         #Publish OccupancyGrid
         self.pub.publish(self.myOccupancyGrid)
-        
-        rospy.loginfo(self.ns+' t1: '+str(time.time()-t1))
-        
-    
+
+
     #Read points from cloud and transform into map frame
     def readAndTransformPoints(self, cloud, tran):
         fmt="ffff"

@@ -13,7 +13,7 @@ Z:  Up
     <include file="$(dirname)/transforms.launch" />
     
     <!--///Laser Angle Listener for Calibration///-->
-    <node pkg="bsl_collision_avoidance" type="laser_angle_listener.py" name="laser_angle_listener" output="screen" respawn="true"/>
+    <node pkg="bsl_collision_avoidance" type="calibration_listener.py" name="calibration_listener" output="screen" respawn="true"/>
 
     <!--///Running Laser 1 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">
@@ -43,7 +43,11 @@ Z:  Up
         <arg name="digital_pin" value="2"/>
     </include>
     
+    <!--///Failure Output///-->
     <node pkg="bsl_collision_avoidance" type="failure_output.py" name="failure_output" respawn="true"/>
+    
+    <!--///System Shutoff on Digital Input 0 High///-->
+    <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" output="screen" respawn="true"/>
     
     
 </launch>

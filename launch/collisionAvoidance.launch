@@ -26,7 +26,7 @@ Z:  Up
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
-        <arg name="digital_pin" value="1" />
+        <arg name="modbus_address" value="17" />
     </include>
     
     <!--///Running Laser 2 collision avoidance///-->
@@ -40,7 +40,7 @@ Z:  Up
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
-        <arg name="digital_pin" value="2"/>
+        <arg name="modbus_address" value="18"/>
     </include>
     
     <!--///Failure Output///-->

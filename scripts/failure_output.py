@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # This node recieves all the messages from every topic watchdog		#
 # and determines if a failure has occured. If so it sets the fault  #
 # pin to LOW and doesn't switch it back until 2 seconds after the	#
 # system has been restored.											#
+#																	#
+# PARAMETERS:														#
+# 	- none															#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy
@@ -19,6 +27,8 @@ class Subscriber:
 		self.failureTimes = {}
 		self.failureValue = {}
 		faultTime = rospy.get_time()
+		
+		#Initialise communication with ModbusClient
 		adam = ModbusClient(host="192.168.1.3", port=502, auto_open=True, auto_close=False)
 		
 		for topic_pair in rospy.get_published_topics():

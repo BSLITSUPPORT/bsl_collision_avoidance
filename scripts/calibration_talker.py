@@ -1,11 +1,19 @@
 #! /usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # This Node is used to calibrate the LIDAR transforms, it does		#
 # this by requesting a user input and broadcasting that transform	#
 # to the calibrator topic.											#
+#																	#
+# PARAMETERS:														#
+# 	- none															#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy

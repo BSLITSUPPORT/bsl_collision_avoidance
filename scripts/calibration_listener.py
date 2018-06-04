@@ -1,11 +1,19 @@
 #!/usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # This node listens to the calibrator topic.						#
 # When a message is recieved it adjusts and saves 					#
 # the LIDAR transform.												#
+#																	#
+# PARAMETERS:														#
+# 	- none															#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy

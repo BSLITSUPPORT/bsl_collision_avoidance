@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # This node monitors a topic and determines if it is recieving		#
 # data. If no data is recieved from the topic in the time defined	#
 # by the timeout parameter, it publishes that the topic has failed.	#
 #																	#
-# Paramaters:														#
+# PARAMETERS:														#
 # 	- topic: 		Defines which topic to Monitor.					#
 #	- topic_type: 	Defines the message type of the monitored topic.#
 #	- timeout:		Defines the period of time where no messages  	#
 #						are recieved before a failure is noticed.	#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy

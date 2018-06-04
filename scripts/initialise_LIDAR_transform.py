@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # When the system is initialised this node							#
 # reads the saved LIDAR transform from it's file and				#
 # broadcasts a Static Transform.									#
 #																	#
-# Paramaters:														#
+# PARAMETERS:														#
 # 	- laser_frame: 	Defines the name of the frame where the LIDAR	#
 #						will be mounted.							#
 #	- parent_frame: Defines the name of the parent frame of the 	#
 #						LIDAR										#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy

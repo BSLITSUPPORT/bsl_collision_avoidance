@@ -8,7 +8,7 @@
 	<arg name="grid_width" />
 	<arg name="grid_x" />
 	<arg name="grid_y" />
-	<arg name="digital_pin" />
+	<arg name="modbus_address" />
 
     <group ns="$(arg name_space)">
         <!--///LiDAR///-->
@@ -50,7 +50,7 @@
         
         <!--///Digital I/O///-->
         <node pkg="bsl_collision_avoidance" type="digital_IO.py" name="digital_IO" respawn="true">
-			<param name="digital_pin" value="$(arg digital_pin)"/>
+			<param name="modbus_address" value="$(arg modbus_address)"/>
 		</node>
 		
 		<!--///Topic WatchDogs///-->
@@ -59,7 +59,6 @@
 			<param name="topic_type" value="sensor_msgs.msg.PointCloud2"/>
 			<param name="timeout" value="0.5"/>
 		</node>
-		
 				
 		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_2" respawn="true">
 			<param name="topic" value="occupancy_grid"/>

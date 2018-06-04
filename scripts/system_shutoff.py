@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 
 #####################################################################
-# Node Details:														#
-# 																	#
+# NODE DETAILS:														#
 # This Node checks to see if the digital pin 0 is high. If so 		#
 # it turns the off the computer.									#
+#																	#
+# PARAMETERS:														#
+# 	- none															#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- 							#
+#	PUBLISHED:														#
+#		- 							#
 #####################################################################
 
 import rospy

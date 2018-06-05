@@ -2,13 +2,13 @@
     <arg name="name_space"/>
     <arg name="laser_ip"/>
     <arg name="laser_frame"/>
-	<arg name="parent_frame" />
-	<arg name="grid_frame" />
-	<arg name="grid_height" />
-	<arg name="grid_width" />
-	<arg name="grid_x" />
-	<arg name="grid_y" />
-	<arg name="modbus_address" />
+    <arg name="parent_frame" />
+    <arg name="grid_frame" />
+    <arg name="grid_height" />
+    <arg name="grid_width" />
+    <arg name="grid_x" />
+    <arg name="grid_y" />
+    <arg name="modbus_address" />
 
     <group ns="$(arg name_space)">
         <!--///LiDAR///-->
@@ -26,9 +26,9 @@
         
         <!--///Initialise LIDAR Frame///-->
         <node pkg="bsl_collision_avoidance" type="initialise_LIDAR_transform.py" name="initialise_LIDAR_transform" respawn="true">
-			<param name="laser_frame"  value="$(arg laser_frame)" />
-			<param name="parent_frame"  value="$(arg parent_frame)" />
-		</node>
+            <param name="laser_frame"  value="$(arg laser_frame)" />
+            <param name="parent_frame"  value="$(arg parent_frame)" />
+        </node>
         
         <!--///Message Frequency Dropper///-->
         <node pkg="topic_tools" type="drop" name="drop" args="cloud 4 5" respawn="true"/>
@@ -45,29 +45,29 @@
         
         <!--///Object Detection///-->
         <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection" respawn="true">
-			<param name="grid_frame" value="$(arg grid_frame)"/>
-		</node>
+            <param name="grid_frame" value="$(arg grid_frame)"/>
+        </node>
         
         <!--///Digital I/O///-->
         <node pkg="bsl_collision_avoidance" type="digital_IO.py" name="digital_IO" respawn="true">
-			<param name="modbus_address" value="$(arg modbus_address)"/>
-		</node>
-		
-		<!--///Topic WatchDogs///-->
-		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_1" respawn="true">
-			<param name="topic" value="cloud"/>
-			<param name="timeout" value="0.5"/>
-		</node>
-				
-		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_2" respawn="true">
-			<param name="topic" value="occupancy_grid"/>
-			<param name="timeout" value="1.5"/>
-		</node>
-		
-		<node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_3" respawn="true">
-			<param name="topic" value="detected_objects"/>
-			<param name="timeout" value="1.5"/>
-		</node>
+            <param name="modbus_address" value="$(arg modbus_address)"/>
+        </node>
+        
+        <!--///Topic WatchDogs///-->
+        <node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_1" respawn="true">
+            <param name="topic" value="cloud"/>
+            <param name="timeout" value="0.5"/>
+        </node>
+                
+        <node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_2" respawn="true">
+            <param name="topic" value="occupancy_grid"/>
+            <param name="timeout" value="1.5"/>
+        </node>
+        
+        <node pkg="bsl_collision_avoidance" type="topic_watch_dog.py" name="topic_watch_dog_3" respawn="true">
+            <param name="topic" value="detected_objects"/>
+            <param name="timeout" value="1.5"/>
+        </node>
 
     </group>
 </launch>

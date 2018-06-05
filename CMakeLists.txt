@@ -9,13 +9,16 @@ project(bsl_collision_avoidance)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  std_msgs
   nav_msgs
   rospy
   sensor_msgs
   tf2_ros
   tf2_sensor_msgs
   visualization_msgs
+  sick_scan
+  tf
+  topic_tools
+  rviz
   message_generation
 )
 
@@ -55,7 +58,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  TopicFailure.msg
+  TopicState.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -167,7 +170,13 @@ include_directories(
  install(PROGRAMS
    scripts/occupancy_grid_creation.py
    scripts/object_detection.py
-   scripts/laser_angle_broadcaster.py
+   scripts/digital_IO.py
+   scripts/topic_watch_dog.py
+   scripts/system_shutoff.py
+   scripts/failure_output.py
+   scripts/calibration_talker.py
+   scripts/calibration_listener.py
+   scripts/initialise_LIDAR_transform.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

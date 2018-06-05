@@ -6,10 +6,10 @@ Z:  Up
 -->
 
 <launch>
-	<!--///Occupancy Grid Transforms///-->
-	<node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_2" args="0 0 0 0 0 0 map grid1" respawn="true"/>
+    <!--///Occupancy Grid Transforms///-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_2" args="0 0 0 0 0 0 map grid1" respawn="true"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_3" args="0 0 0 3.141592654 0 0 map grid2" respawn="true"/>
-	
+    
     <!--///Cabin Transforms///-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_1" args="0 0 3.83 0 0 0 1 map turret_axis" respawn="true"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_4" args="0.515 2.225 0 0 0 -0.707107019200454 0.707106543172561 turret_axis cabin_lift" respawn="true"/>

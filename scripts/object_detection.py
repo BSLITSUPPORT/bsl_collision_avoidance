@@ -1,20 +1,19 @@
 #! /usr/bin/env python
 
 #####################################################################
-# NODE DETAILS:														#
-# This node recieves an occupancy grid and uses a connected 		#
-# component algorithim to group occupied grids and represent them 	#
-# as one obstruction.
-#																	#
-# PARAMETERS:														#
-# 	- grid_frame: 	Defines the modbus address of the digital 	#
-#							output pin.								#
-#																	#
-# TOPICS:															#
-#	SUBSCRIBED:														#
-#		- occupancy_grid											#
-#	PUBLISHED:														#
-#		- detected_objects											#
+# NODE DETAILS:                                                     #
+# This node recieves an occupancy grid and uses a connected         #
+# component algorithim to group occupied grids and represent them   #
+# as one obstruction.                                               #
+# PARAMETERS:                                                       #
+#     - grid_frame: Defines the modbus address of the digital       #
+#                       output pin.                                 #
+#                                                                   #
+# TOPICS:                                                           #
+#    SUBSCRIBED:                                                    #
+#        - occupancy_grid                                           #
+#    PUBLISHED:                                                     #
+#        - detected_objects                                         #
 #####################################################################
 
 import rospy
@@ -24,6 +23,8 @@ from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 from scipy.ndimage.measurements import label
 
+# This class manages the subscriber and publisher
+# for this node.
 class SubscribeAndPublish:
     def __init__(self):
         #Initate OccupancyGrid Publisher
@@ -77,6 +78,10 @@ class SubscribeAndPublish:
         #Publish MarkerArray
         self.pub.publish(self.myMarkerArray)
 
+# This class is used to store the data 
+# for every connected component created from the
+# occupancy grid. There are helper functions that help
+# merge coomponents that are inside each other.
 class ConnectedComponent:
     #Initialize class
     def __init__(self, idnum, heightGrid, indices, resolution, xDisplacment, yDisplacment):
@@ -180,11 +185,11 @@ class ConnectedComponent:
         return marker
 
 if __name__ == '__main__':
-	#Initiate the Node
-	rospy.init_node('object_detection')
+    #Initiate the Node
+    rospy.init_node('object_detection')
 
-	#Initiate Subscriber and Publisher object
-	a = SubscribeAndPublish()
+    #Initiate Subscriber and Publisher object
+    a = SubscribeAndPublish()
 
-	# spin() simply keeps python from exiting until this node is stopped
-	rospy.spin()
+    #Hold node open until ROS system is shutdown
+    rospy.spin()

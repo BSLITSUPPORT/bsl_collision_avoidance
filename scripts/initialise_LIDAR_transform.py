@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 
 #####################################################################
-# NODE DETAILS:														#
-# When the system is initialised this node reads the saved LIDAR	#
-# transform from it's file and broadcasts a Static Transform.		#
-#																	#
-# PARAMETERS:														#
-# 	- laser_frame: 	Defines the name of the frame where the LIDAR	#
-#						will be mounted.							#
-#	- parent_frame: Defines the name of the parent frame of the 	#
-#						LIDAR										#
-#																	#
-# TOPICS:															#
-#	SUBSCRIBED:														#
-#		- none														#
-#	PUBLISHED:														#
-#		- tf_static													#
+# NODE DETAILS:                                                     #
+# When the system is initialised this node reads the saved LIDAR    #
+# transform from it's file and broadcasts a Static Transform.       #
+#                                                                   #
+# PARAMETERS:                                                       #
+#     - laser_frame: Defines the name of the frame where the LIDAR  #
+#                        will be mounted.                           #
+#    - parent_frame: Defines the name of the parent frame of the    #
+#                        LIDAR                                      #
+#                                                                   #
+# TOPICS:                                                           #
+#    SUBSCRIBED:                                                    #
+#        - none                                                     #
+#    PUBLISHED:                                                     #
+#        - tf_static                                                #
 #####################################################################
 
 import rospy
@@ -47,24 +47,24 @@ def transform_broadcaster(child_frame, parent_frame, x, y, z):
     br.sendTransform(t)
     
 if __name__ == '__main__':
-	#Initiate Node
-	rospy.init_node('initialise_LIDAR_transform')
+    #Initiate Node
+    rospy.init_node('initialise_LIDAR_transform')
 
-	#Get ROS Paramaters
-	child_frame = rospy.get_param('~laser_frame')
-	parent_frame = rospy.get_param('~parent_frame')
+    #Get ROS Paramaters
+    child_frame = rospy.get_param('~laser_frame')
+    parent_frame = rospy.get_param('~parent_frame')
 
-	#Locate file
-	rospack = rospkg.RosPack()
-	path = rospack.get_path('bsl_collision_avoidance')
+    #Locate file
+    rospack = rospkg.RosPack()
+    path = rospack.get_path('bsl_collision_avoidance')
 
-	#Read angles from file
-	f = open(path+'/config/'+child_frame+'.txt', 'r')
-	laserangle = map(float, f.readline().split(','))
-	f.close()
+    #Read angles from file
+    f = open(path+'/config/'+child_frame+'.txt', 'r')
+    laserangle = map(float, f.readline().split(','))
+    f.close()
 
-	#Broadcast Transform from files
-	transform_broadcaster(child_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2])
-	
-	#Hold node open until ROS system is shutdown
-	rospy.spin()
+    #Broadcast Transform from files
+    transform_broadcaster(child_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2])
+    
+    #Hold node open until ROS system is shutdown
+    rospy.spin()

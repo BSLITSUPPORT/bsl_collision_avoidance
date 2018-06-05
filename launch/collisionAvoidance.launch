@@ -44,10 +44,13 @@ Z:  Up
     </include>
     
     <!--///Failure Output///-->
-    <node pkg="bsl_collision_avoidance" type="failure_output.py" name="failure_output" respawn="true"/>
+    <node pkg="bsl_collision_avoidance" type="failure_output.py" name="failure_output" respawn="true">
+        <param name="modbus_address" value="16" />
+    </node>
     
     <!--///System Shutoff on Digital Input 0 High///-->
-    <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" output="screen" respawn="true"/>
-    
+    <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" respawn="true">
+        <param name="modbus_address" value="0" />
+    </node>
     
 </launch>

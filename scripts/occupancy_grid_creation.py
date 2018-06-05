@@ -1,27 +1,27 @@
 #! /usr/bin/env python
 
 #####################################################################
-# NODE DETAILS:														#
-# This node recives point cloud data from the LIDAR and creates a	#
-# grid that illustrates where in 2D space an object may be 			#
-# occupying space. The values in the grid is determined by the 		#
-# heighest point in that space.
-#																	#
-# PARAMETERS:														#
-# 	- laser_frame: 	Defines the name of the frame where the LIDAR  	#
-#						data is broadcast to.						#
-# 	- grid_frame: 	Defines the name of the frame that the 		 	#
-#						occupancy grid is in.						#
-# 	- grid_height: 	Defines the height of the occupancy grid 		#
-# 	- grid_width: 	Defines the width of the occupancy gird		 	#
-# 	- grid_x: 		Defines the x displacement of the occupancy grid#
-# 	- grid_y: 		Defines the y displacement of the occupancy grid#
-#																	#
-# TOPICS:															#
-#	SUBSCRIBED:														#
-#		- cloud_drop							#
-#	PUBLISHED:														#
-#		- occupancy_grid							#
+# NODE DETAILS:                                                     #
+# This node recives point cloud data from the LIDAR and creates a   #
+# grid that illustrates where in 2D space an object may be          #
+# occupying space. The values in the grid is determined by the      #
+# heighest point in that space.                                     #
+#                                                                   #
+# PARAMETERS:                                                       #
+#     - laser_frame:Defines the name of the frame where the LIDAR   #
+#                       data is broadcast to.                       #
+#     - grid_frame: Defines the name of the frame that the          #
+#                       occupancy grid is in.                       #
+#     - grid_height: Defines the height of the occupancy grid       #
+#     - grid_width: Defines the width of the occupancy gird         #
+#     - grid_x: Defines the x displacement of the occupancy grid    #
+#     - grid_y: Defines the y displacement of the occupancy grid    #
+#                                                                   #
+# TOPICS:                                                           #
+#    SUBSCRIBED:                                                    #
+#        - cloud_drop                                               #
+#    PUBLISHED:                                                     #
+#        - occupancy_grid                                           #
 #####################################################################
 
 import struct
@@ -31,8 +31,9 @@ import PyKDL
 import numpy as np
 from sensor_msgs.msg import PointCloud2
 from nav_msgs.msg import OccupancyGrid
-from tf2_kdl.tf2_kdl import transform_to_kdl
 
+# This class manages the subscriber and publisher
+# for this node.
 class SubscribeAndPublish(object):
     def __init__(self, ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y):
         #Store Namespace
@@ -87,13 +88,17 @@ class SubscribeAndPublish(object):
         tran[1, 3] = t.transform.translation.y
         tran[2, 3] = t.transform.translation.z
         
-        #
+        #Read points from point cloud
         transformedMapPoints = self.readAndTransformPoints(cloud, tran)
+        #Transform points from LIDAR coordinates to Grid coordinates
         transformedGridPoints = transformedMapPoints - (self.myOccupancyGrid.info.origin.position.x, self.myOccupancyGrid.info.origin.position.y, 0, 0)
         transformedGridPoints = transformedGridPoints/self.myOccupancyGrid.info.resolution
         transformedGridPoints = np.floor(transformedGridPoints)
+        #For every transformed point inside the grid
         for point in transformedGridPoints:
             if point[0] >= 0 and point[0] < self.myOccupancyGrid.info.width and point[1] >= 0 and point[1] < self.myOccupancyGrid.info.height:
+                #Set the square where the transformed point is closest, 
+                # to the height of the point in that square.
                 index = int(self.myOccupancyGrid.info.width*point[1] + point[0])
                 if point[2] > gridData[index]:
                     gridData[index] = point[2]
@@ -107,35 +112,38 @@ class SubscribeAndPublish(object):
 
     #Read points from cloud and transform into map frame
     def readAndTransformPoints(self, cloud, tran):
-        fmt="ffff"
         width, height, point_step, row_step, data = cloud.width, cloud.height, cloud.point_step, cloud.row_step, cloud.data
+        #Binary format for one point [float, float, float, float]
+        fmt="ffff"
         unpack_from = struct.Struct(fmt).unpack_from
         a = np.empty((22176,4))
         index = 0
+        #Loop through all 24 layers
         for v in range(24):
                 offset = row_step * v
                 for u in range(width):
+                    #Unpack next point and convert it from binary
                     p = unpack_from(data, offset)
-                    a[index] = np.matmul(tran, [p[0], p[1], p[2], 1])
+                    a[index] = np.matmul(tran, [p[0], p[1], p[2], 1])   
                     offset += point_step
                     index += 1
         return a
 
 if __name__ == '__main__':
-	#Initiate the Node
-	rospy.init_node('collision_detection')
+    #Initiate the Node
+    rospy.init_node('collision_detection')
 
-	#Get ROS Parameters
-	ns = rospy.get_namespace()
-	laser_frame = rospy.get_param('~laser_frame')
-	grid_frame = rospy.get_param('~grid_frame')
-	grid_height = rospy.get_param('~grid_height')
-	grid_width = rospy.get_param('~grid_width')
-	grid_x = rospy.get_param('~grid_x')
-	grid_y = rospy.get_param('~grid_y')
+    #Get ROS Parameters
+    ns = rospy.get_namespace()
+    laser_frame = rospy.get_param('~laser_frame')
+    grid_frame = rospy.get_param('~grid_frame')
+    grid_height = rospy.get_param('~grid_height')
+    grid_width = rospy.get_param('~grid_width')
+    grid_x = rospy.get_param('~grid_x')
+    grid_y = rospy.get_param('~grid_y')
 
-	#Initiate object
-	a = SubscribeAndPublish(ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y)
+    #Initiate object
+    a = SubscribeAndPublish(ns, laser_frame, grid_frame, grid_width, grid_height, grid_x, grid_y)
 
-	# spin() simply keeps python from exiting until this node is stopped
-	rospy.spin()
+    #Hold node open until ROS system is shutdown
+    rospy.spin()

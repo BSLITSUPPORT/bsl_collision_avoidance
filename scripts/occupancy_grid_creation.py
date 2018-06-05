@@ -1,9 +1,33 @@
 #! /usr/bin/env python
+
+#####################################################################
+# NODE DETAILS:														#
+# This node recives point cloud data from the LIDAR and creates a	#
+# grid that illustrates where in 2D space an object may be 			#
+# occupying space. The values in the grid is determined by the 		#
+# heighest point in that space.
+#																	#
+# PARAMETERS:														#
+# 	- laser_frame: 	Defines the name of the frame where the LIDAR  	#
+#						data is broadcast to.						#
+# 	- grid_frame: 	Defines the name of the frame that the 		 	#
+#						occupancy grid is in.						#
+# 	- grid_height: 	Defines the height of the occupancy grid 		#
+# 	- grid_width: 	Defines the width of the occupancy gird		 	#
+# 	- grid_x: 		Defines the x displacement of the occupancy grid#
+# 	- grid_y: 		Defines the y displacement of the occupancy grid#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- cloud_drop							#
+#	PUBLISHED:														#
+#		- occupancy_grid							#
+#####################################################################
+
 import struct
 import rospy
 import tf2_ros
 import PyKDL
-import time
 import numpy as np
 from sensor_msgs.msg import PointCloud2
 from nav_msgs.msg import OccupancyGrid

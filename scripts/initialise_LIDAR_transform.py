@@ -2,9 +2,8 @@
 
 #####################################################################
 # NODE DETAILS:														#
-# When the system is initialised this node							#
-# reads the saved LIDAR transform from it's file and				#
-# broadcasts a Static Transform.									#
+# When the system is initialised this node reads the saved LIDAR	#
+# transform from it's file and broadcasts a Static Transform.		#
 #																	#
 # PARAMETERS:														#
 # 	- laser_frame: 	Defines the name of the frame where the LIDAR	#
@@ -14,9 +13,9 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- none														#
 #	PUBLISHED:														#
-#		- 							#
+#		- tf_static													#
 #####################################################################
 
 import rospy

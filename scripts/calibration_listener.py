@@ -11,9 +11,9 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- calibrator												#
 #	PUBLISHED:														#
-#		- 							#
+#		- tf_static													#
 #####################################################################
 
 import rospy

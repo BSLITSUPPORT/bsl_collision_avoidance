@@ -15,7 +15,7 @@ Z:  Up
     <!--///Laser Angle Listener for Calibration///-->
     <node pkg="bsl_collision_avoidance" type="calibration_listener.py" name="calibration_listener" output="screen" respawn="true"/>
 
-    <!--///Running Laser 1 collision avoidance///-->
+    <!--///Running LIDAR 1 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">
         <arg name="name_space" value="1" /> 
         <arg name="laser_ip" value="192.168.1.7" />
@@ -29,7 +29,7 @@ Z:  Up
         <arg name="modbus_address" value="17" />
     </include>
     
-    <!--///Running Laser 2 collision avoidance///-->
+    <!--///Running LIDAR 2 collision avoidance///-->
     <include file="$(dirname)/MRS6000_ns.launch">
         <arg name="name_space" value="2" /> 
         <arg name="laser_ip" value="192.168.1.8" />

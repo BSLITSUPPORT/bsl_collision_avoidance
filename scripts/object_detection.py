@@ -1,6 +1,23 @@
 #! /usr/bin/env python
+
+#####################################################################
+# NODE DETAILS:														#
+# This node recieves an occupancy grid and uses a connected 		#
+# component algorithim to group occupied grids and represent them 	#
+# as one obstruction.
+#																	#
+# PARAMETERS:														#
+# 	- grid_frame: 	Defines the modbus address of the digital 	#
+#							output pin.								#
+#																	#
+# TOPICS:															#
+#	SUBSCRIBED:														#
+#		- occupancy_grid											#
+#	PUBLISHED:														#
+#		- detected_objects											#
+#####################################################################
+
 import rospy
-import time
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from visualization_msgs.msg import Marker
@@ -139,7 +156,7 @@ class ConnectedComponent:
         marker = Marker()
         ns = rospy.get_namespace()
         marker.header.frame_id = rospy.get_param('~grid_frame')
-        marker.header.stamp = rospy.Time()
+        marker.header.stamp = rospy.Time.now()
         marker.ns = "shape_namespace"
         marker.id = self.idnum
         marker.type = 1

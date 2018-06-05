@@ -11,9 +11,9 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- none														#
 #	PUBLISHED:														#
-#		- 							#
+#		- calibrator												#
 #####################################################################
 
 import rospy

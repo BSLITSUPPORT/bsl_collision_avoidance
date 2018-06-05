@@ -8,33 +8,27 @@
 #																	#
 # PARAMETERS:														#
 # 	- topic: 		Defines which topic to Monitor.					#
-#	- topic_type: 	Defines the message type of the monitored topic.#
 #	- timeout:		Defines the period of time where no messages  	#
 #						are recieved before a failure is noticed.	#
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- Given by the topic parameter 'topic'						#
 #	PUBLISHED:														#
-#		- 							#
+#		- failures													#
 #####################################################################
 
 import rospy
-import std_msgs.msg
-import nav_msgs.msg
-import sensor_msgs.msg
-import geometry_msgs.msg
-import visualization_msgs.msg
-from time import sleep
+from rospy import sleep
 from bsl_collision_avoidance.msg import TopicFailure
 
 class SubscribeAndPublish(object):
-    def __init__(self, topic, topic_type, timeout):
+    def __init__(self, topic, timeout):
         #Initate OccupancyGrid Publisher
         self.pub = rospy.Publisher('failures', TopicFailure, queue_size=1)
         
         #Initiate Point Cloud Subscriber
-        self.sub = rospy.Subscriber(topic, eval(topic_type), self.callback)
+        self.sub = rospy.Subscriber(topic, rospy.AnyMsg, self.callback)
         
         self.triggered = rospy.get_time()
         while not rospy.is_shutdown():
@@ -61,11 +55,10 @@ if __name__ == '__main__':
 	
 	#Get parameters
 	topic = rospy.get_param('~topic')
-	topic_type = rospy.get_param('~topic_type')
 	timeout = rospy.get_param('~timeout')
 	
 	#Subscribe
-	a = SubscribeAndPublish(topic, topic_type, timeout)
+	a = SubscribeAndPublish(topic, timeout)
 	
 	rospy.spin()
 	

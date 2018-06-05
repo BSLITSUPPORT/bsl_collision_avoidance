@@ -2,7 +2,7 @@
 
 #####################################################################
 # NODE DETAILS:														#
-# This Node checks to see if the digital pin 0 is high. If so 		#
+# This Node checks to see if the digital pin 0 is HIGH. If so 		#
 # it turns the off the computer.									#
 #																	#
 # PARAMETERS:														#
@@ -10,15 +10,15 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- none														#
 #	PUBLISHED:														#
-#		- 							#
+#		- none														#
 #####################################################################
 
 import rospy
 from pyModbusTCP.client import ModbusClient
 import os
-from time import sleep
+from rospy import sleep
 
 if __name__ == '__main__':
     #Initiate Node

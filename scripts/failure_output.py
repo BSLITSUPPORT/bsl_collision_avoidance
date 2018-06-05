@@ -12,13 +12,14 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- /1/failures												#
+#		- /2/failures												#
 #	PUBLISHED:														#
-#		- 							#
+#		- none														#
 #####################################################################
 
 import rospy
-from time import sleep
+from rospy import sleep
 from pyModbusTCP.client import ModbusClient
 from bsl_collision_avoidance.msg import TopicFailure
 
@@ -47,7 +48,7 @@ class Subscriber:
 						faultTime = rospy.get_time()
 				if rospy.get_time() - faultTime >= 2:
 					adam.write_single_coil(16, True)
-					print "no fault"						
+					print "no fault"					
 		
 	def callback(self, msg):
 		topic = msg.topic_name

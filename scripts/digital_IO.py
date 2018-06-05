@@ -14,9 +14,9 @@
 #																	#
 # TOPICS:															#
 #	SUBSCRIBED:														#
-#		- 							#
+#		- detected_objects											#
 #	PUBLISHED:														#
-#		- 							#
+#		- none														#
 #####################################################################
 
 import rospy

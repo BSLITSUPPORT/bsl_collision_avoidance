@@ -26,7 +26,9 @@ Z:  Up
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
-        <arg name="modbus_address" value="17" />
+        <arg name="modbus_address_output" value="17" />
+        <arg name="modbus_address_input" value="0" />
+        <arg name="zone_distance" value="5" />
     </include>
     
     <!--///Running LIDAR 2 collision avoidance///-->
@@ -40,7 +42,9 @@ Z:  Up
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
         <arg name="grid_y" value="-2" />
-        <arg name="modbus_address" value="18"/>
+        <arg name="modbus_address_output" value="18"/>
+        <arg name="modbus_address_input" value="0" />
+        <arg name="zone_distance" value="5" />
     </include>
     
     <!--///Failure Output///-->
@@ -49,8 +53,6 @@ Z:  Up
     </node>
     
     <!--///System Shutoff on Digital Input 0 High///-->
-    <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" respawn="true">
-        <param name="modbus_address" value="0" />
-    </node>
+    <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" respawn="true" />
     
 </launch>

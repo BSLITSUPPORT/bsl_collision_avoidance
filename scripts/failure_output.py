@@ -31,11 +31,8 @@ class Subscriber:
         #Initialise communication with ModbusClient
         adam = ModbusClient(host="192.168.1.3", port=502, auto_open=True, auto_close=False)
         
-        #Create subscription to all topic that end in 'failures'
-        for topic_pair in rospy.get_published_topics():
-            topic = topic_pair[0]
-            if topic[3:] == "failures":
-                rospy.Subscriber(topic, TopicState, self.callback)
+        rospy.Subscriber("/1/failures", TopicState, self.callback)
+        rospy.Subscriber("/2/failures", TopicState, self.callback)
         
         #While System has not been shutdown
         while not rospy.is_shutdown():            

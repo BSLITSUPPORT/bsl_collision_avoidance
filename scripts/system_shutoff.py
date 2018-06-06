@@ -23,24 +23,20 @@ from rospy import sleep
 if __name__ == '__main__':
     #Initiate Node
     rospy.init_node('system_shutoff')
-    
-    #Get ROS parameters
-    modbus_address = rospy.get_param('~modbus_address')
-    
-    #Initialise communication with ModbusClient
-    adam = ModbusClient(host="192.168.1.3", port=502, auto_open=True, auto_close=False)
-    
+
+
     #While system is not shutdown
     while not rospy.is_shutdown():
-        #Read shutdown pin
-        a = adam.read_discrete_inputs(int(modbus_address))
-        #If it is a valid read
-        if type(a) == type([]):
-            #If pin is HIGH
-            if a[0] == True:
-                #Shutdown System
-                os.system('systemctl poweroff')
-        sleep(0.1)
+        #Ping Router
+        response = os.system("ping -c 1 192.168.1.12")
+
+        #If router is dead
+        if response != 0:
+            #Shutdown computer
+            os.system('systemctl poweroff')
+            
+        #Test every second
+        sleep(1)
                 
     #Hold node open until ROS system is shutdown
     rospy.spin()

@@ -41,8 +41,6 @@ def callback(marker_array, inputs):
         if xpos - float(xsize)/2 - grid_x < distance: 
             distance = xpos - float(xsize)/2 - grid_x
     
-    print distance
-    
     a = adam.read_discrete_inputs(int(input_address))
     #If it is a valid read
     if type(a) == type([]):
@@ -50,6 +48,7 @@ def callback(marker_array, inputs):
         if a[0] == 1:
             #If there is an obstruction less than xm detected write pin False
             if distance <= int(zone_distance):
+                rospy.logwarn("Obstruction has been detected")
                 adam.write_single_coil(int(output_address), False)
             #If there is an no obstruction less than xm detected write pin False
             else:
@@ -58,10 +57,14 @@ def callback(marker_array, inputs):
         elif a[0] == 0:
             #If there is an obstruction detected write pin False
             if len(marker_array.markers) > 0:
+                rospy.logwarn("Obstruction has been detected")
                 adam.write_single_coil(int(output_address), False)
             #If there is no obstruction detected write pin True
             else:
                 adam.write_single_coil(int(output_address), True)
+    else:
+        rospy.logwarn("Connection to adam failed")
+        
 
 if __name__ == '__main__':
     #Initialise node

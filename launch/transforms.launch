@@ -19,10 +19,10 @@ Z:  Up
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_6" args="3.770 0 0 0 0 0 1 turret_axis crucible_left" respawn="true"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_7" args="-3.770 0 0 0 0 0 1 turret_axis crucible_right" respawn="true"/>
     
-    <!--///Laser 1 Transform///-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center laser_mount1" respawn="true"/>
+    <!--///Left LIDAR mounting bracket Transform///-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_8" args="-0.4767 1.3075 0 0.7071065431724 0.707107019200294 -0.0000004760280541 -0.0000004760277337 cabin_center left_lidar_mount" respawn="true"/>
     
-    <!--///Laser 2 Transform///-->      <!-- -0.2094395102 0.0174532952 or -0.1448623279 0-->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_9" args="-0.4767 -1.3075 0 0.7071065431724 -0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center laser_mount2" respawn="true"/>
+    <!--///Right LIDAR mounting bracket Transform///--> 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_9" args="-0.4767 -1.3075 0 0.7071065431724 -0.707107019200294 0.0000004760280541 -0.0000004760277337 cabin_center right_lidar_mount" respawn="true"/>
     
 </launch>

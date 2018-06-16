@@ -25,7 +25,7 @@ from bsl_collision_avoidance.msg import TopicState
 
 class Subscriber:
     def __init__(self, modbus_address):
-        self.failureTimes = {}
+        self.areTopicsAlive = {}
         faultTime = rospy.get_time()
         
         #Initialise communication with ModbusClient
@@ -37,27 +37,26 @@ class Subscriber:
         #While System has not been shutdown
         while not rospy.is_shutdown():            
             #If for some reason the watchdogs or subscription fail tell PLCs
-            if len(self.failureTimes.keys()) == 0:
+            if len(self.areTopicsAlive.keys()) == 0:
                 adam.write_single_coil(int(modbus_address), False)
             #If watch dogs are functioning 
             else:
                 #Check current state of every topic
-                for key in self.failureTimes.keys():
+                for key in self.areTopicsAlive.keys():
                     #If there is a failure in one of the topics
-                    if self.failureTimes[key] == 0:
+                    if self.areTopicsAlive[key] == 0:
                         #Set pin to LOW
                         adam.write_single_coil(int(modbus_address), False)
                         faultTime = rospy.get_time()
-                        print "fault"
+                        rospy.logerr("System is not working. Topic %s has failed", key)
                 #If there has been no fault for 2 secs set pin back to HIGH
                 if rospy.get_time() - faultTime >= 2:
                     adam.write_single_coil(int(modbus_address), True)
-                    print "no fault"
             sleep(0.2)
         
     def callback(self, msg):
         #Store the current state of the topic against the topic name
-        self.failureTimes[msg.topic_name] = msg.is_alive
+        self.areTopicsAlive[msg.topic_name] = msg.is_alive
 
     
 if __name__ == '__main__':

@@ -6,7 +6,6 @@ Z:  Up
 -->
 
 <launch>
-    <env name="ROS_IP" value="192.168.1.5"></env>
     <param name="robot_description" textfile="$(find bsl_collision_avoidance)/urdf/CTA.urdf" />
 
     <!--///Static Transforms///-->
@@ -14,9 +13,12 @@ Z:  Up
     
     <!--///Laser Angle Listener for Calibration///-->
     <node pkg="bsl_collision_avoidance" type="calibration_listener.py" name="calibration_listener" output="screen" respawn="true"/>
+    
+    <!--///Simulation of LIDAR///-->
+    <node pkg="rosbag" type="play" name="play" args="-l /home/calibration/simulated_LIDARs_2018-06-11-10-05-58.bag"/>
 
     <!--///Running LIDAR 1 collision avoidance///-->
-    <include file="$(dirname)/MRS6000_ns.launch">
+    <include file="$(dirname)/simulation_ns.launch">
         <arg name="name_space" value="1" /> 
         <arg name="laser_ip" value="192.168.1.7" />
         <arg name="laser_frame" value="laser1" />
@@ -32,7 +34,7 @@ Z:  Up
     </include>
     
     <!--///Running LIDAR 2 collision avoidance///-->
-    <include file="$(dirname)/MRS6000_ns.launch">
+    <include file="$(dirname)/simulation_ns.launch">
         <arg name="name_space" value="2" /> 
         <arg name="laser_ip" value="192.168.1.8" />
         <arg name="laser_frame" value="laser2" />
@@ -53,6 +55,8 @@ Z:  Up
     </node>
     
     <!--///System Shutoff on Digital Input 0 High///-->
+<!--
     <node pkg="bsl_collision_avoidance" type="system_shutoff.py" name="system_shutoff" respawn="true" />
+-->
     
 </launch>

@@ -70,7 +70,7 @@ if __name__ == '__main__':
         #If user inputs rotation matrix
         if len(degrees) == 4:
             current_angle_deg = degrees[0:3]
-            height = 3.8 - current_angle_deg[3]
+            height = 3.8 - float(degrees[3])
             radians = map(degTOrad, degrees)
             #Publish transform determined from user input
             pub.publish( get_transform(laser_frame, parent_frame, radians[0], radians[1], radians[2], height) )

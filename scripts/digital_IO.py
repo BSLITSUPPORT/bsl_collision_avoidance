@@ -46,12 +46,14 @@ def callback(marker_array, inputs):
     if type(a) == type([]):
         #If HIGH
         if a[0] == 1:
+            rospy.loginfo("System is in reduced distance mode")
             #If there is an obstruction less than xm detected write pin False
             if distance <= int(zone_distance):
                 rospy.logwarn("Obstruction has been detected")
                 adam.write_single_coil(int(output_address), False)
             #If there is an no obstruction less than xm detected write pin False
             else:
+                rospy.loginfo("No Obsturction has been detected")
                 adam.write_single_coil(int(output_address), True)
         #If LOW
         elif a[0] == 0:
@@ -61,6 +63,7 @@ def callback(marker_array, inputs):
                 adam.write_single_coil(int(output_address), False)
             #If there is no obstruction detected write pin True
             else:
+                rospy.loginfo("No Obsturction has been detected")
                 adam.write_single_coil(int(output_address), True)
     else:
         rospy.logwarn("Connection to adam failed")

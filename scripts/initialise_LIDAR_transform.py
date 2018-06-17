@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     #Read angles from file
     f = open(path+'/config/'+child_frame+'.txt', 'r')
-    laserangle = map(float, f.readline().split(','))
+    laserangle = map(float, f.readline().split(', '))
     f.close()
 
     #Broadcast Transform from files

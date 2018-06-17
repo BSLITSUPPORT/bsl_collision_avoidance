@@ -34,7 +34,7 @@ def applyTransform(t):
     f = open(path+'/config/'+laser_frame+'.txt', 'w')
     angles = tf.transformations.euler_from_quaternion([t.transform.rotation.x, t.transform.rotation.y, t.transform.rotation.z, t.transform.rotation.w])
     angles = ", ".join(map(str,angles))
-    string = angles+", "+t.transform.translation.z
+    string = angles+", "+str(t.transform.translation.z)
     f.write(string)
     f.close()
     

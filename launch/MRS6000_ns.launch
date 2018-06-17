@@ -38,7 +38,7 @@
         
         <!--///Occupancy Grid Creation///-->
         <node pkg="bsl_collision_avoidance" type="occupancy_grid_creation.py" name="occupancy_grid_creation" respawn="true">
-            <param name="laser_frame" value="$(arg lidar_frame)"/>
+            <param name="laser_frame" value="$(arg laser_frame)"/>
             <param name="grid_frame" value="$(arg grid_frame)"/>
             <param name="grid_height" value="$(arg grid_height)"/>
             <param name="grid_width" value="$(arg grid_width)"/>

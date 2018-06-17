@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
         #If router is dead
         if response != 0:
-			rospy.loginfo("Connection to the MikroTik has been lost system is shutting down.")
+            rospy.loginfo("Connection to the MikroTik has been lost system is shutting down.")
             #Shutdown computer
             os.system('systemctl poweroff')
             

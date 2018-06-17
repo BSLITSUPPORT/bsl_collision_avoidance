@@ -25,7 +25,7 @@ from geometry_msgs.msg import TransformStamped
 import rospkg
 
 
-def transform_broadcaster(child_frame, parent_frame, x, y, z):
+def transform_broadcaster(child_frame, parent_frame, x, y, z, height):
     #Initalises Static Broadcaster
     br = tf2_ros.StaticTransformBroadcaster()
     
@@ -36,7 +36,7 @@ def transform_broadcaster(child_frame, parent_frame, x, y, z):
     t.child_frame_id = child_frame
     t.transform.translation.x = 0
     t.transform.translation.y = 0
-    t.transform.translation.z = 0.1  
+    t.transform.translation.z = height  
     q = tf.transformations.quaternion_from_euler(x, y, z)
     t.transform.rotation.x = q[0]
     t.transform.rotation.y = q[1]
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     f.close()
 
     #Broadcast Transform from files
-    transform_broadcaster(child_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2])
+    transform_broadcaster(child_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2], laserangle[3])
     
     #Hold node open until ROS system is shutdown
     rospy.spin()

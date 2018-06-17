@@ -24,7 +24,7 @@ from time import sleep
 from math import pi
 import rospkg
 
-def get_transform(child_frame, parent_frame, x, y, z):
+def get_transform(child_frame, parent_frame, x, y, z, height):
     #Create Transform with specifications given from inputs
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
@@ -32,7 +32,7 @@ def get_transform(child_frame, parent_frame, x, y, z):
     t.child_frame_id = child_frame
     t.transform.translation.x = 0
     t.transform.translation.y = 0
-    t.transform.translation.z = 0.1
+    t.transform.translation.z = height
     q = tf.transformations.quaternion_from_euler(x, y, z)
     t.transform.rotation.x = q[0]
     t.transform.rotation.y = q[1]
@@ -61,18 +61,19 @@ if __name__ == '__main__':
     print "\nAdjusting LIDAR 1"
     laser = 1
     laser_frame = "laser1"
-    parent_frame = "laser_mount1"
+    parent_frame = "left_lidar_mount"
     current_angle_deg = [0, 0, 0]
     while True:
         #Asks user for rotation for LIDAR transform
         print "The current angle of "+laser_frame+" is: "+str(current_angle_deg)
-        degrees = raw_input("What is your desired angle? (x, y, z) 'q' to quit. ").split(', ')
+        degrees = raw_input("What is your desired angle? (x, y, z, height) 'q' to quit. ").split(', ')
         #If user inputs rotation matrix
-        if len(degrees) == 3:
-            current_angle_deg = degrees
+        if len(degrees) == 4:
+            current_angle_deg = degrees[0:3]
+            height = 3.8 - current_angle_deg[3]
             radians = map(degTOrad, degrees)
             #Publish transform determined from user input
-            pub.publish( get_transform(laser_frame, parent_frame, radians[0], radians[1], radians[2]) )
+            pub.publish( get_transform(laser_frame, parent_frame, radians[0], radians[1], radians[2], height) )
         #If user wants to quit calibration
         elif degrees[0] == 'q':
             #If it is the first quit move to second LIDAR
@@ -80,7 +81,7 @@ if __name__ == '__main__':
                 print "\nAdjusting LIDAR 2"
                 laser = 2
                 laser_frame = "laser2"
-                parent_frame = "laser_mount2"
+                parent_frame = "right_lidar_mount"
                 current_angle_deg = [0, 0, 0]
             #If quitting LIDAR 2 
             elif laser == 2:

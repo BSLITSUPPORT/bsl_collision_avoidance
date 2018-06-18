@@ -62,6 +62,11 @@ if __name__ == '__main__':
     f = open(path+'/config/'+child_frame+'.txt', 'r')
     laserangle = map(float, f.readline().split(', '))
     f.close()
+    
+    rospy.set_param('x', str(laserangle[0]))
+    rospy.set_param('y', str(laserangle[1]))
+    rospy.set_param('z', str(laserangle[2]))
+    rospy.set_param('height', str(laserangle[3]))
 
     #Broadcast Transform from files
     transform_broadcaster(child_frame, parent_frame, laserangle[0], laserangle[1], laserangle[2], laserangle[3])

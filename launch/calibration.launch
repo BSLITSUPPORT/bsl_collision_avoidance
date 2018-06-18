@@ -4,7 +4,7 @@
         
     <node pkg="rviz" type="rviz" name="rviz"/>
     
-    <node pkg="bsl_collision_avoidance" type="calibration_talker.py" name="laser_angle_talker" output="screen" required="true"/>
+    <node pkg="bsl_collision_avoidance" type="calibration_talker.py" name="calibration_talker" output="screen" required="true"/>
 </launch>
 
 <!--

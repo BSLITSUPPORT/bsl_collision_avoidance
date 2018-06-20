@@ -28,10 +28,10 @@ Z:  Up
         <arg name="grid_frame" value="grid1" />
         <arg name="minimum_object_width" value="0.2" />
         <arg name="minimum_object_length" value="0.2" />
-        <arg name="grid_height" value="4" />
+        <arg name="grid_height" value="3" />
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
-        <arg name="grid_y" value="-2" />
+        <arg name="grid_y" value="-1.5" />
         <arg name="modbus_address_output" value="17" />
         <arg name="modbus_address_input" value="0" />
         <arg name="zone_distance" value="5" />
@@ -46,10 +46,10 @@ Z:  Up
         <arg name="grid_frame" value="grid2" />
         <arg name="minimum_object_width" value="0.2" />
         <arg name="minimum_object_length" value="0.2" />
-        <arg name="grid_height" value="4" />
+        <arg name="grid_height" value="3" />
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
-        <arg name="grid_y" value="-2" />
+        <arg name="grid_y" value="-1.5" />
         <arg name="modbus_address_output" value="18"/>
         <arg name="modbus_address_input" value="0" />
         <arg name="zone_distance" value="5" />

@@ -26,9 +26,14 @@ from scipy.ndimage.measurements import label
 # This class manages the subscriber and publisher
 # for this node.
 class SubscribeAndPublish:
-    def __init__(self):
+    def __init__(self, minWidth, minLength):
         #Initate OccupancyGrid Publisher
         self.pub = rospy.Publisher('detected_objects', MarkerArray, queue_size=1)
+        
+        #Store Parameters
+        self.minWidth = minWidth
+        self.minLength = minLength
+        
         #Initiate Point Cloud Subscriber
         self.sub = rospy.Subscriber('occupancy_grid', OccupancyGrid, self.callback)
         
@@ -72,8 +77,11 @@ class SubscribeAndPublish:
                 if broken == False:
                     newcclist.append(cc)
         
+        #Create Marker array for publishing remove object with a base area smaller than given area.
         for cc in newcclist:
-            self.myMarkerArray.markers.append(cc.getMarker())
+            ccSize = cc.getSize()
+            if not (ccSize[0] <= self.minLength and ccSize[1] <= self.minWidth):
+                self.myMarkerArray.markers.append(cc.getMarker())
         
         #Publish MarkerArray
         self.pub.publish(self.myMarkerArray)
@@ -148,6 +156,10 @@ class ConnectedComponent:
     def getCorners(self):
         return self.corners
     
+    #Return size of CC
+    def getSize(self):
+        return self.size
+        
     #Return bounds of CC
     def getBounds(self):
         return self.bounds
@@ -187,9 +199,13 @@ class ConnectedComponent:
 if __name__ == '__main__':
     #Initiate the Node
     rospy.init_node('object_detection')
-
+    
+    #Get Parameters
+    minWidth = rospy.get_param('~minimum_object_width')
+    minLength = rospy.get_param('~minimum_object_length')
+    
     #Initiate Subscriber and Publisher object
-    a = SubscribeAndPublish()
+    a = SubscribeAndPublish(minWidth, minLength)
 
     #Hold node open until ROS system is shutdown
     rospy.spin()

@@ -3,6 +3,8 @@
     <arg name="laser_ip"/>
     <arg name="laser_frame"/>
     <arg name="parent_frame" />
+    <arg name="minimum_object_width" />
+    <arg name="minimum_object_length" />
     <arg name="grid_frame" />
     <arg name="grid_height" />
     <arg name="grid_width" />
@@ -49,6 +51,8 @@
         <!--///Object Detection///-->
         <node pkg="bsl_collision_avoidance" type="object_detection.py" name="object_detection" respawn="true">
             <param name="grid_frame" value="$(arg grid_frame)"/>
+            <param name="minimum_object_width" value="$(arg minimum_object_width)"/>
+            <param name="minimum_object_length" value="$(arg minimum_object_length)"/>
         </node>
         
         <!--///Digital I/O///-->

@@ -28,7 +28,7 @@ if __name__ == '__main__':
     #While system is not shutdown
     while not rospy.is_shutdown():
         #Ping Router
-        response = os.system("ping -c 1 192.168.1.12")
+        response = os.system("ping -c 1 192.168.1.3")
 
         #If router is dead
         if response != 0:

@@ -22,6 +22,8 @@ Z:  Up
         <arg name="laser_frame" value="laser1" />
         <arg name="parent_frame" value="left_lidar_mount" />
         <arg name="grid_frame" value="grid1" />
+        <arg name="minimum_object_width" value="0.2" />
+        <arg name="minimum_object_length" value="0.2" />
         <arg name="grid_height" value="4" />
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />
@@ -38,6 +40,8 @@ Z:  Up
         <arg name="laser_frame" value="laser2" />
         <arg name="parent_frame" value="right_lidar_mount" />
         <arg name="grid_frame" value="grid2" />
+        <arg name="minimum_object_width" value="0.2" />
+        <arg name="minimum_object_length" value="0.2" />
         <arg name="grid_height" value="4" />
         <arg name="grid_width" value="20" />
         <arg name="grid_x" value="5.5" />

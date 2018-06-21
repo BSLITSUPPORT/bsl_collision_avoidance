@@ -118,8 +118,10 @@ class SubscribeAndPublish(object):
         unpack_from = struct.Struct(fmt).unpack_from
         a = np.empty((22176,4))
         index = 0
+        if height > 24:
+            height =24
         #Loop through all 24 layers
-        for v in range(24):
+        for v in range(height):
                 offset = row_step * v
                 for u in range(width):
                     #Unpack next point and convert it from binary

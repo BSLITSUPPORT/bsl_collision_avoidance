@@ -20,7 +20,8 @@ import rospy
 import tf2_ros
 import tf
 from geometry_msgs.msg import TransformStamped
-from time import sleep
+from bsl_collision_avoidance.msg import TransformStampedArray
+from rospy import sleep
 from math import pi
 import rospkg
 
@@ -54,7 +55,9 @@ if __name__ == '__main__':
     rospy.init_node('calibration_talker')
     
     #Initialise Publisher to calibrator topic
-    pub = rospy.Publisher('calibrator', TransformStamped, queue_size=1)
+    pub = rospy.Publisher('calibrator', TransformStampedArray, queue_size=1)
+    
+    transformArray = TransformStampedArray()
     
     #Calibration section for left LIDAR
     print "You have entered the LiDAR Calibration tool"
@@ -69,7 +72,8 @@ if __name__ == '__main__':
     current_angle_rad = [x, y, z]
     current_angle_deg = map(radTodeg, current_angle_rad)
     transform1 = get_transform(laser_frame, parent_frame, x, y, z, current_height)
-    pub.publish(transform1)
+    transformArray.array = [transform1]
+    pub.publish(transformArray)
     while True:
         #Asks user for rotation for LIDAR transform
         print "The current angle of "+laser_frame+" is: "+str(current_angle_deg)
@@ -82,7 +86,8 @@ if __name__ == '__main__':
             current_angle_rad = map(degTOrad, current_angle_deg)
             #Publish transform determined from user input
             transform1 = get_transform(laser_frame, parent_frame, current_angle_rad[0], current_angle_rad[1], current_angle_rad[2], current_height)
-            pub.publish(transform1)
+            transformArray.array = [transform1]
+            pub.publish(transformArray)
         #If user wants to quit calibration
         elif degrees[0] == 'q':
             #quit
@@ -110,7 +115,8 @@ if __name__ == '__main__':
     current_angle_rad = [x, y, z]
     current_angle_deg = map(radTodeg, current_angle_rad)
     transform2 = get_transform(laser_frame, parent_frame, x, y, z, current_height)
-    pub.publish(transform2)
+    transformArray.array = [transform2]
+    pub.publish(transformArray)
     while True:
         #Asks user for rotation for LIDAR transform
         print "The current angle of "+laser_frame+" is: "+str(current_angle_deg)
@@ -123,7 +129,8 @@ if __name__ == '__main__':
             current_angle_rad = map(degTOrad, current_angle_deg)
             #Publish transform determined from user input
             transform2 = get_transform(laser_frame, parent_frame, current_angle_rad[0], current_angle_rad[1], current_angle_rad[2], current_height)
-            pub.publish(transform2)
+            transformArray.array = [transform2]
+            pub.publish(transformArray)
         #If user wants to quit calibration
         elif degrees[0] == 'q':
             #quit
@@ -132,6 +139,9 @@ if __name__ == '__main__':
         else:
             print "You have not given a valid Input"
         sleep(1)
+    
+    transformArray.array = [transform1, transform2]
+    pub.publish(transformArray)
     
     print "Quitting "+laser_frame+" claibration. Saving given parameters. This may take some time."    
     rospy.set_param('/2/x', str(current_angle_rad[0]))

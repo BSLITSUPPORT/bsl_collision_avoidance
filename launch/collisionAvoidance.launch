@@ -9,7 +9,7 @@ Z:  Up
     <env name="ROS_IP" value="192.168.1.5"></env>
     <param name="robot_description" textfile="$(find bsl_collision_avoidance)/urdf/CTA.urdf" />
 
-    <!--///Static Transforms///-->
+    <!--///Initialises Transforms///-->
     <include file="$(dirname)/transforms.launch" />
     
     <!--///Laser Angle Listener for Calibration///-->

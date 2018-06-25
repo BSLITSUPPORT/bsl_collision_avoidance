@@ -26,7 +26,7 @@ import rospkg
 def applyTransform(transform):
     #Broadcast recieved transform
     br = tf2_ros.StaticTransformBroadcaster()
-    br.sendTransform(transform.transformArray)
+    br.sendTransform(transform.array)
         
     for t in transform.array:
         #Write transform to file

@@ -6,7 +6,7 @@ For all information on the setup and install of the collision avoidance system f
 
 ## Required Software and Libraries
  - ROS Lunar
- - sick_scan package from https://github.com/SICKAG/sick_scan
+ - sick_scan package from https://github.com/BSLITSUPPORT/sick_scan
  - Python 2.7
  - Insure following python libraries are installed
     - Numpy
